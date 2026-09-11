@@ -1,0 +1,32 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,rm,writeFile,readFile} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
+import {createFolioServer} from '../server/index.mjs';
+
+test('collections migrate, persist empty, rename memberships and remove without deleting papers',async t=>{
+ const dataDir=await mkdtemp(path.join(tmpdir(),'folio-collections-'));
+ const paper={id:'legacy',title:'Paper',authors:'A; B; C',year:'2026',journal:'',doi:'',collection:'Existing',tags:'',status:'To read',notes:'Keep notes',starred:false};
+ await writeFile(path.join(dataDir,'library.json'),JSON.stringify({papers:[paper],revision:0}));
+ let server;let base;
+ const launch=async()=>{server=await createFolioServer({dataDir});await new Promise(r=>server.listen(0,'127.0.0.1',r));base=`http://127.0.0.1:${server.address().port}`;};
+ await launch();t.after(async()=>{await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true});});
+ const {token}=await(await fetch(base+'/api/session')).json();
+ const headers={Authorization:`Bearer ${token}`,'Content-Type':'application/json'};
+ const get=async()=> (await fetch(base+'/api/library',{headers})).json();
+ const change=async body=>fetch(base+'/api/collections',{method:'POST',headers,body:JSON.stringify(body)});
+ assert.deepEqual((await get()).collections,['Existing']);
+ assert.equal((await change({action:'create',name:'Empty'})).status,200);
+ assert.equal((await change({action:'create',name:'empty'})).status,409);
+ assert.equal((await change({action:'create',name:'Unfiled'})).status,400);
+ await new Promise(r=>server.close(r));await launch();
+ assert.ok((await get()).collections.includes('Empty'));
+ const lib=await get();lib.papers[0].collection='Empty';
+ assert.equal((await fetch(base+'/api/library',{method:'PUT',headers,body:JSON.stringify(lib)})).status,200);
+ assert.equal((await change({action:'rename',name:'Empty',newName:'Renamed'})).status,200);
+ assert.equal((await get()).papers[0].collection,'Renamed');
+ assert.equal((await change({action:'delete',name:'Renamed'})).status,200);
+ const final=await get();assert.equal(final.papers[0].collection,'Unfiled');assert.equal(final.papers[0].notes,'Keep notes');assert.equal(final.papers.length,1);assert.ok(!final.collections.includes('Renamed'));
+ assert.deepEqual(JSON.parse(await readFile(path.join(dataDir,'library.json'),'utf8')),final);
+});

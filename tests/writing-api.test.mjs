@@ -1,0 +1,40 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
+import JSZip from 'jszip';
+import {createFolioServer} from '../server/index.mjs';
+test('PMID lookup, capture, styled preview and Word download form one workflow',async t=>{
+ const dataDir=await mkdtemp(path.join(tmpdir(),'folio-writing-'));
+ const metadata={pmid:'42092150',title:'Citation test',authors:'Doe, Jane',year:'2025',journal:'Test Journal',doi:'10.1234/test',cslAuthors:[{family:'Doe',given:'Jane'}],volume:'1',issue:'2',pages:'3-4',dateParts:[2025],sourceUrl:'https://pubmed.ncbi.nlm.nih.gov/42092150/'};
+ const server=await createFolioServer({dataDir,pubmedLookup:async({pmid})=>{if(pmid!=='42092150')throw Error('PMID not found');return metadata;}});await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));t.after(async()=>{await new Promise(resolve=>server.close(resolve));await rm(dataDir,{recursive:true,force:true});});
+ const base=`http://127.0.0.1:${server.address().port}`;const {token}=await (await fetch(base+'/api/session')).json();const headers={Authorization:`Bearer ${token}`,'Content-Type':'application/json'};
+ const post=(route,body)=>fetch(base+route,{method:'POST',headers,body:JSON.stringify(body)});
+ const lookup=await fetch(base+'/api/pubmed?pmid=42092150',{headers});assert.equal((await lookup.json()).pmid,'42092150');
+ const saved=await (await post('/api/capture',{pmid:'42092150'})).json();assert.equal(saved.paper.pmid,'42092150');assert.equal(saved.paper.volume,'1');assert.equal((await (await post('/api/capture',{pmid:'42092150'})).json()).duplicate,true);
+ const request={text:'Test (42092150). Again (42092150). Year (2024).',style:'apa'};
+ const preview=await (await post('/api/citations/preview',request)).json();assert.equal(preview.citations.length,2);assert.equal(preview.bibliography.length,1);assert.match(preview.text,/Doe, 2025/);assert.match(preview.text,/\(2024\)/);
+ const exported=await post('/api/citations/word',request);assert.equal(exported.status,200);assert.match(exported.headers.get('content-type'),/wordprocessingml/);const zip=await JSZip.loadAsync(await exported.arrayBuffer());assert.match(await zip.file('word/document.xml').async('string'),/References/);
+ assert.equal((await post('/api/citations/word',{text:'Unknown (99999999)',style:'apa'})).status,400);
+ assert.equal((await post('/api/capture',{pmid:'99999999'})).status,400);
+ assert.equal((await post('/api/citations/preview',{text:'test',style:'invalid'})).status,400);
+});
+
+test('style catalog, import and Word export share a local per-library registry',async t=>{
+ const dataDir=await mkdtemp(path.join(tmpdir(),'folio-style-api-'));let externalCalls=0;
+ const xml='<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text"><info><title>API superscript</title><id>http://www.zotero.org/styles/api-superscript</id></info><citation><layout><text variable="citation-number" vertical-align="sup"/></layout></citation><bibliography><layout><text variable="title"/></layout></bibliography></style>';
+ const server=await createFolioServer({dataDir,styleFetch:async url=>{externalCalls++;assert.equal(url,'https://www.zotero.org/styles-files/styles.json');return new Response(JSON.stringify([{name:'api-superscript',title:'API superscript',categories:{format:'numeric'}}]));},pubmedLookup:async()=>({pmid:'42092150',title:'Citation test',authors:'Doe, Jane',year:'2025',journal:'J'})});
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));t.after(async()=>{await new Promise(resolve=>server.close(resolve));await rm(dataDir,{recursive:true,force:true});});
+ const base=`http://127.0.0.1:${server.address().port}`,{token}=await(await fetch(base+'/api/session')).json(),headers={Authorization:`Bearer ${token}`,'Content-Type':'application/json'};
+ const post=(route,body)=>fetch(base+route,{method:'POST',headers,body:JSON.stringify(body),signal:AbortSignal.timeout(5000)});
+ assert.equal((await fetch(base+'/api/citations/styles')).status,401);
+ const catalog=await(await fetch(base+'/api/citations/style-catalog?q=API',{headers})).json();assert.equal(catalog.styles[0].id,'api-superscript');assert.equal(externalCalls,1);
+ const denied=await fetch(base+'/api/citations/style-import',{method:'POST',headers:{...headers,Origin:'chrome-extension://fixture'},body:JSON.stringify({xml})});assert.equal(denied.status,403);
+ assert.equal((await post('/api/citations/style-catalog',{})).status,405);
+ const imported=await(await post('/api/citations/style-import',{xml})).json();assert.ok(imported.installedId);assert.equal(imported.styles.length,10);assert.equal(externalCalls,1);
+ await post('/api/capture',{pmid:'42092150'});
+ const request={text:'Test (42092150).',style:imported.installedId},preview=await(await post('/api/citations/preview',request)).json();assert.match(preview.citations[0].replacementHtml,/<sup>1<\/sup>/);
+ const exported=await post('/api/citations/word',request);assert.equal(exported.status,200);const zip=await JSZip.loadAsync(await exported.arrayBuffer());assert.match(await zip.file('word/document.xml').async('string'),/w:val="superscript"/);
+ const {gunzipSync}=await import('node:zlib');const backup=gunzipSync(Buffer.from(await(await fetch(base+'/api/backup',{headers})).arrayBuffer()));assert.match(backup.toString(),/citation-styles\/[a-f0-9]{64}\.json/);
+});

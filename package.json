@@ -1,0 +1,83 @@
+{
+  "name": "folio-reference-manager",
+  "version": "0.1.0",
+  "description": "A free local-first paper library and browser connector",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "main": "desktop/main.cjs",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "build": "node scripts/prepare-pdfjs.mjs && tsc --noEmit && vite build",
+    "start": "node server/index.mjs",
+    "dev": "node scripts/prepare-pdfjs.mjs && vite --host 127.0.0.1",
+    "test": "node --test tests/*.test.mjs",
+    "desktop": "npm run build && electron .",
+    "dist:desktop": "npm run build && electron-builder --publish never",
+    "check": "npm run build && npm test"
+  },
+  "dependencies": {
+    "@xmldom/xmldom": "0.9.12",
+    "citeproc": "2.4.63",
+    "jszip": "3.10.1",
+    "pdfjs-dist": "6.3.289",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "electron": "44.2.0",
+    "electron-builder": "26.15.3",
+    "typescript": "5.9.3",
+    "vite": "8.2.2"
+  },
+  "build": {
+    "appId": "org.folio.reference-manager",
+    "productName": "Folio",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "server/**",
+      "desktop/**",
+      "extension/**",
+      "package.json",
+      "LICENSE",
+      "CSL-NOTICES.md",
+      "assets/**"
+    ],
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.productivity",
+      "icon": "assets/icon.icns"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    },
+    "extraResources": [
+      {
+        "from": "extension",
+        "to": "extension",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ]
+  }
+}

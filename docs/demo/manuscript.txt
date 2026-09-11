@@ -1,0 +1,9 @@
+A demonstration manuscript
+
+This is fictional text for testing Folio. It makes no scientific claims.
+
+We describe a reading workflow (folio:demo-reading). We compare two fictional approaches (folio:demo-reading; folio:demo-computing).
+
+The same reference can be cited again (folio:demo-computing).
+
+During the revision exercise, insert the third demo reference after this sentence.

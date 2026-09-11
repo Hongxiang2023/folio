@@ -1,0 +1,23 @@
+node_modules/
+dist/
+release/
+*.log
+.env*
+.DS_Store
+library/
+data/
+backups/
+*.pdf
+*.sqlite*
+connector-token*
+
+/public/pdfjs/
+/tmp/pdfs/
+/tmp/styles/
+
+# Local investigation, private fixtures, release staging and developer settings
+/tmp/
+/.codex/
+/.agents/
+*.docx
+*.tar.gz
