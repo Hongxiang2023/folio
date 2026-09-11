@@ -4,7 +4,7 @@ This demo has two parts: a clickable illustration that needs only a browser, and
 
 ## Click through the walkthrough
 
-Use the [live walkthrough](https://hongxiang2023.github.io/folio/), or download the project and open [`demo/index.html`](demo/index.html) in your browser. GitHub shows HTML source rather than executing it, so open the downloaded file locally. It is self-contained and works without a server, build, network request, or account.
+Use the [live walkthrough](https://hongxiang2023.github.io/folio/demo/), or download the project and open [`demo/index.html`](demo/index.html) in your browser. GitHub shows HTML source rather than executing it, so open the downloaded file locally. It is self-contained and works without a server, build, network request, or account.
 
 The eight stops cover collecting, organizing, reading, optional AI, citing, revising, the connector, and backups. Buttons change the illustration or show the next operation. This is **not the Folio app**, a live screenshot, an actual AI answer, or a functional citation engine. It writes no data and makes no network requests.
 

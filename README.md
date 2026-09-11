@@ -1,101 +1,98 @@
-# Folio
+<p align="center">
+  <img src="assets/icon.png" alt="Folio logo" width="112" height="112">
+</p>
+<h1 align="center">Folio</h1>
+<p align="center"><strong>Your papers. Your notes. Your next manuscript.</strong></p>
+<p align="center">A free, local-first paper library with PDF reading, browser capture, and references that follow your revisions.</p>
+<p align="center">
+  <a href="docs/install.md"><strong>Get started</strong></a> ·
+  <a href="https://hongxiang2023.github.io/folio/demo/">Try the demo</a> ·
+  <a href="docs/user-guide.md">User guide</a>
+</p>
 
-**Keep your papers, read with context, and turn identifiers into manuscript references.**
+## Start here
 
-Folio is a free, local-first reference manager with a desktop app, PDF reading view, Chrome/Edge connector, and a Word upload/export workflow. Your library lives on your computer. Core library and citation features need no account or subscription. Optional paper chat uses your own AI provider.
+**No ready-to-install app download yet.** Folio is an early preview that runs from source and opens a desktop window. You will need Node.js and a terminal; the source ZIP is not an app installer.
 
-**Early desktop preview.** Source installation is available below. Public installer signing and wider cross-platform testing remain release work. Folio is an independent project, not affiliated with Zotero or Paperpile.
+1. **Install Node.js:** download an LTS version from [nodejs.org](https://nodejs.org/en/download). Folio requires Node.js 22.13 or newer.
+2. **Download Folio:** [Download source ZIP](https://github.com/Hongxiang2023/folio/archive/refs/heads/main.zip), then extract it. The folder is normally named `folio-main`.
+3. **Open a terminal in that folder**, then run these two commands, one at a time:
 
-[Live demo](https://hongxiang2023.github.io/folio/) · [User guide](docs/user-guide.md) · [Hands-on tutorial](docs/demo.md) · [Security](SECURITY.md) · [Release checklist](RELEASE.md)
+   ```sh
+   npm ci
+   npm run desktop
+   ```
 
-## From papers to a revised manuscript
+The first command downloads dependencies. The second builds Folio and opens its desktop window. Keep the terminal open while using it. Your library is stored separately from the downloaded source folder.
 
-| Your task | Folio's workflow |
+**New to terminals?** Follow the step-by-step [macOS](docs/install.md#macos), [Windows](docs/install.md#windows), or [Linux](docs/install.md#linux) instructions, including how to open Folio again later.
+
+| Want to… | Choose this |
 | --- | --- |
-| Collect | Import PDFs, look up a PMID/DOI/arXiv ID, import RIS/Folio JSON, or save a page with the browser connector. |
-| Organize | Search reference metadata; use collections, tags, stars, and reading status. |
-| Read | Keep the original PDF beside an optional offline text-and-figures reading view; save notes and highlights. |
-| Understand | Optionally ask about the paper, a selected passage, or a figure/equation using your AI connection. |
-| Cite | Write PMID, DOI, arXiv, or local-library markers and generate formatted citations plus a bibliography. |
-| Revise | Edit the exported Word file, insert new markers, upload it again, and refresh citations and references. |
-| Keep a backup | Export reference metadata or download a full compressed library backup with PDFs. |
+| Use Folio with your own papers | [Install and launch the desktop preview](docs/install.md) |
+| Explore without installing anything | [Open the interactive demo](https://hongxiang2023.github.io/folio/demo/) — an illustration, not the app |
+| Try the real app with fictional data | [Follow the hands-on demo](docs/demo.md) |
 
-### Write the PMID directly
+## A home for the whole reading workflow
 
-No special prefix is needed for modern numeric PubMed IDs:
+| Collect & organize | Read & understand | Write & revise |
+| --- | --- | --- |
+| Import PDFs and RIS/Folio references | Original PDF and optional reading view | PMID, DOI, arXiv, and local citation markers |
+| Look up PMID, DOI, or arXiv metadata | Text, figures, legends, and source-page links | APA, Nature, Vancouver, IEEE, and more CSL styles |
+| Save pages with the Chrome/Edge connector | Notes, highlights, and figure zoom | Word upload, formatted export, and revised bibliography |
+| Collections, tags, stars, reading status | Optional paper chat using your AI provider | BibTeX copy and full library backups |
 
-```text
-This result supports our approach (36599988).
-Several studies support this approach (36599988, 40903587).
-```
+No Folio account or subscription is needed for core features. Your references, PDFs, notes, and highlights stay on your computer. Public identifier lookup and optional AI use external services only for their respective tasks; AI requires your own connection and explicit per-paper enablement.
 
-Folio looks up missing identifiers when **Look up missing identifiers** is selected. Choose a citation style, review the preview, and download Word. Ordinary years such as `(2024)` and citation numbers such as `[1]` are left alone; short PubMed IDs need an explicit prefix, such as `(PMID: 12345)`.
+## Just type the PMID
 
-Papers without PubMed IDs work too:
+Write one reference or several at the same location:
 
 ```text
-We used the published method (doi:10.1038/nphys1170).
-A related approach appears in a preprint (arxiv:1706.03762).
-Compare both sources (PMID: 36599988; doi:10.1038/nphys1170).
+One source (36599988).
+Several sources (36599988, 40903587).
 ```
 
-These are syntax examples, not claims that those papers support the sample sentences. For a saved reference with no public identifier, use **Copy citation marker** in its details. It produces a local Folio marker.
+Choose **Generate references**, paste your text or upload Word, select a style, and review the result. Missing public identifiers can be looked up automatically. No `PMID:` prefix is needed for these modern IDs.
 
-For revisions, preserve existing Word citation controls and Folio's reference list. Add new markers outside those controls and re-upload the document. To replace a citation's sources, delete the entire citation control and type the replacement marker. This is an upload/export workflow, not a live Word add-in. [Full citation and revision instructions →](docs/user-guide.md#generate-and-revise-manuscript-references)
+**No PubMed ID?** Use a DOI, arXiv ID, or **Copy citation marker** from a saved reference:
 
-## Try it without your own library
-
-[The demo guide](docs/demo.md) includes a clickable, self-contained walkthrough and fictional references for an offline hands-on trial. Open the [live walkthrough](https://hongxiang2023.github.io/folio/), or download the repository and open `docs/demo/index.html` locally. The walkthrough is an illustration, not a recording or screenshot of the live app.
-
-## Run from source
-
-Install **Node.js 22.13 or newer**, then clone this repository and run:
-
-```sh
-git clone https://github.com/Hongxiang2023/folio.git
-cd folio
-npm ci
-npm run build
-npm start
+```text
+A DOI source (doi:10.1038/nphys1170).
+An arXiv source (arxiv:1706.03762).
+A mixed group (PMID: 36599988; doi:10.1038/nphys1170).
 ```
 
-Open **http://127.0.0.1:47821/papers** and keep the process running. `Ctrl+C` stops it. Folio binds to your computer's loopback interface; it is not an internet-facing server.
+These are syntax examples, not scientific claims. Short PMIDs need an explicit prefix, such as `(PMID: 12345)`; ordinary years and formatted citation numbers are left alone.
 
-For a desktop window, stop that service first, then run:
+**During revision:** edit the exported Word file, add new markers outside existing citation controls, and upload it again. Folio refreshes the citations and replaces its reference list. Preserve those controls; to change a citation's sources, replace the whole control with a new marker. [Citation and revision guide →](docs/user-guide.md#generate-and-revise-manuscript-references)
 
-```sh
-npm run desktop
-```
+## Keep the original within reach
 
-Browser and desktop modes normally use the same library folder. Run one service per library at a time. The [demo guide](docs/demo.md#hands-on-demo-in-an-isolated-library) shows how to use a separate temporary library.
+Open **Read PDF → Reading view** for locally extracted text and figures, section navigation, notes, and highlights. Use **Check original** whenever a passage needs verification. Reading caches work offline and can be removed without deleting the PDF or notes.
 
-## Reading that keeps the source close
+Rules cover several Nature-family layouts, Cell Reports, Science Advances, and common article layouts. Extraction remains imperfect for some tables, mathematics, scans, and unusual PDFs; the original stays available. [Reading guide →](docs/user-guide.md#read-pdfs-and-create-reading-views)
 
-Choose **Read PDF → Reading view → Generate reading view** for selectable article text, section/page navigation, figure previews, and saved highlights. The original PDF stays available through **Check original**. Figure zoom reaches 600%, with sharper local rendering when possible. Detected display equations are kept as image crops.
+## Learn more
 
-Layout rules cover several Nature-family journals, Cell Reports, Science Advances, and common article layouts. This is heuristic PDF extraction, not a guarantee for every paper or journal. Complex tables, mathematics, scans, and unusual layouts may require the original PDF. No OCR is included. Reading caches are generated locally and can be removed without deleting notes or the PDF. [Reading guide →](docs/user-guide.md#read-pdfs-and-create-reading-views)
+[Installation & troubleshooting](docs/install.md) · [Complete user guide](docs/user-guide.md) · [Browser connector](docs/user-guide.md#save-papers-with-the-browser-connector) · [Backup & restore](docs/user-guide.md#back-up-restore-and-move-your-library) · [Optional AI](docs/user-guide.md#ask-a-paper-with-optional-ai)
 
-## Local by default, connected when you choose
+Folio is an independent early-preview project. It currently has no cloud sync, shared libraries, OCR, or live Word/Google Docs add-in. Review metadata and generated references before submission. Automated source checks cover macOS, Windows, and Linux; this does not establish installer compatibility on every computer.
 
-- References, PDFs, notes, highlights, and paper conversations are stored locally. There is no built-in cloud sync or telemetry.
-- Identifier lookup contacts PubMed, Crossref, or arXiv; those services receive identifiers and network request information, not your manuscript. Saving identifier-bearing references can also look up verified PMIDs.
-- The connector reads the active article page when invoked. PDF access depends on your publisher access; Folio does not bypass it.
-- AI is optional and requires explicit per-paper enablement. Extracted text, questions, recent conversation, and selected images go to your chosen provider. Provider billing or account limits apply.
-- Exported Word files include the cited bibliographic metadata needed for revision. They do not embed library notes, PDF attachments, or credentials in that metadata.
-
-[Storage and backup instructions](docs/user-guide.md#back-up-restore-and-move-your-library) · [AI details](docs/ai-reading.md) · [Security boundaries](SECURITY.md)
-
-## Develop and contribute
+<details>
+<summary><strong>For developers and contributors</strong></summary>
 
 ```sh
 npm run check          # build, typecheck, and automated tests
 npm run dist:desktop   # package locally; does not publish
 ```
 
-For frontend development, keep `npm start` running and use `npm run dev` in a second terminal. Vite proxies API calls to the local service. Build desktop artifacts on the corresponding OS. See [RELEASE.md](RELEASE.md) for release gates and [CSL-NOTICES.md](CSL-NOTICES.md) for citation-style notices.
+For browser mode, run `npm run build` and `npm start`, then open `http://127.0.0.1:47821/papers`. Stop desktop mode first. For frontend development, keep the local service running and use `npm run dev` in a second terminal.
 
-When reporting a problem, include the OS, Folio version, exact steps, and an error message. A synthetic or legally shareable reproduction is preferable to a private manuscript. Never share your library folder, connector token, API keys, or account credentials.
+Report problems with your OS, Folio version, reproduction steps, and error message. Prefer synthetic examples over private papers or manuscripts. Never share your library folder or credentials.
 
-Current limits include no cloud/shared libraries, full-text library search, PDF annotation layer, arbitrary BibTeX import, live Word/Google Docs add-in, Firefox/Safari connector, or OCR. Citation metadata and generated references should be checked before submission.
+[Release checklist](RELEASE.md) · [Security](SECURITY.md) · [Citation-style notices](CSL-NOTICES.md)
 
-Source is MIT-licensed. Bundled dependencies and styles retain their own licenses.
+</details>
+
+Source is [MIT-licensed](LICENSE). Dependencies and citation styles retain their own licenses.

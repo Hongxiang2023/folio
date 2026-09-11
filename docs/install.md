@@ -1,0 +1,165 @@
+# Install and open Folio
+
+**No ready-to-install app download is available yet.** Folio currently runs as a **desktop preview from source**. You download a project folder, install its dependencies once, and launch it with a command. This creates a desktop window; it does not install a permanent Folio shortcut in Applications or the Start menu.
+
+- **Source ZIP:** the project files. Follow the steps below to run them.
+- **Desktop installer:** a packaged app such as a `.dmg`, `.exe`, or `.AppImage`. The source ZIP is not one of these.
+- **Online demo:** a clickable illustration at [the demo site](https://hongxiang2023.github.io/folio/demo/). It does not open or store your real library.
+
+Choose your system: [macOS](#macos) · [Windows](#windows) · [Linux](#linux)
+
+## Before you begin
+
+You need internet access for the first dependency download and **Node.js 22.13 or newer**. Install an LTS version from the [official Node.js download page](https://nodejs.org/en/download). Node.js includes `npm`, the command used below. Installing Node.js alone does not install Folio.
+
+Download the [Folio source ZIP](https://github.com/Hongxiang2023/folio/archive/refs/heads/main.zip) and extract it. Find the folder containing `package.json` — normally `folio-main`. Keep that folder somewhere you can find again, such as Documents.
+
+If Folio is already running, quit it before starting another instance. The desktop app and browser mode use the same local port and, by default, the same library.
+
+## macOS
+
+### First launch
+
+1. Install the macOS Node.js LTS installer from the [official download page](https://nodejs.org/en/download). Close and reopen Terminal after installation.
+2. Double-click the downloaded Folio ZIP to extract it. Move `folio-main` into Documents if you want to keep it there.
+3. Open **Terminal** using Spotlight: press Command–Space, type `Terminal`, and press Return.
+4. In Terminal, type `cd` followed by a space. **Drag the extracted `folio-main` folder from Finder into Terminal**, then press Return. This fills in the correct folder path, including spaces.
+5. Copy and run the following commands **one line at a time**:
+
+   ```sh
+   npm ci
+   npm run desktop
+   ```
+
+Wait for the first command to finish before running the second. Dependency downloads may take several minutes. The desktop window opens when the build finishes. Leave Terminal open while using Folio.
+
+### Open Folio next time
+
+Open Terminal, change into the same folder using step 4, then run:
+
+```sh
+npm run desktop
+```
+
+You do not need `npm ci` on every launch. It is needed after downloading a new source version or changing dependencies. The desktop command builds before opening, so a short startup wait is normal for this source setup.
+
+## Windows
+
+### First launch
+
+1. Install the Windows Node.js LTS installer from the [official download page](https://nodejs.org/en/download), keeping its npm/PATH options enabled. Close and reopen any terminal windows afterward.
+2. Right-click the downloaded Folio ZIP, choose **Extract All**, and complete extraction. Open the extracted folder containing `package.json` — there may be one extra outer folder.
+3. Click File Explorer's address bar, type `cmd`, and press Enter. A **Command Prompt** opens in that folder. This also avoids PowerShell's `npm.ps1` execution-policy issue.
+4. Copy and run these commands **one line at a time**:
+
+   ```bat
+   npm ci
+   npm run desktop
+   ```
+
+Wait for dependency installation to finish before the second command. Folio opens in a desktop window. Keep Command Prompt open while using it.
+
+### Open Folio next time
+
+Open the same extracted folder in File Explorer, type `cmd` in its address bar, then run:
+
+```bat
+npm run desktop
+```
+
+You do not need to reinstall dependencies each time. If you prefer PowerShell and it blocks `npm.ps1`, use `npm.cmd ci` and `npm.cmd run desktop` rather than changing your machine's execution policy.
+
+## Linux
+
+### First launch
+
+1. Install a supported Node.js LTS release with npm, following the [official download page](https://nodejs.org/en/download) for your distribution or preferred version manager. Distribution packages may be older; check the installed version below.
+2. Extract the Folio source ZIP using your file manager. Open the folder containing `package.json`.
+3. Right-click inside that folder and choose **Open in Terminal** if available. Otherwise open a terminal, type `cd` followed by a space, drag the extracted folder into it, and press Enter.
+4. Check Node and install/launch Folio:
+
+   ```sh
+   node --version
+   npm ci
+   npm run desktop
+   ```
+
+The Node version must be at least `v22.13.0`. Wait for each command to finish before running the next. A graphical desktop session is needed for the Electron window. Keep the terminal open while using Folio.
+
+### Open Folio next time
+
+Open a terminal in the same project folder and run:
+
+```sh
+npm run desktop
+```
+
+Linux desktop dependencies vary by distribution. If Electron reports a missing system library, resolve the named dependency through your distribution's normal package manager or try [browser mode](#browser-mode). Do not disable Electron's sandbox as a workaround.
+
+## Your first five minutes
+
+1. Choose **Import PDF** to add a file, or **Add paper / PMID** to find metadata from a PMID, DOI, or arXiv ID.
+2. Select a paper and choose **Read PDF**. Reading notes save locally.
+3. Try **Reading view → Generate reading view** for extracted text and figure previews. The original PDF remains available.
+4. For citations, choose **Generate references** and try a manuscript containing `(36599988)` or a grouped marker such as `(36599988, 40903587)`. Enable lookup when the references are not already saved.
+5. Open **Library & connector** to see where your data lives and download a full backup.
+
+For an exercise without your own papers, follow the [hands-on demo with a separate temporary library](demo.md#hands-on-demo-in-an-isolated-library). For everything else, see the [user guide](user-guide.md).
+
+## Quit and reopen safely
+
+Quit the Folio desktop window/app. If its command is still running, return to the terminal and press `Ctrl+C`. On macOS, closing a window may leave the app running; use **Folio → Quit Folio** or Command–Q.
+
+Start only one Folio service at a time. If you used browser mode earlier, stop its `npm start` process with `Ctrl+C` before running desktop mode. Do not run two copies against the same library folder.
+
+Your papers are **not stored in the extracted source folder** by default. The exact library location is shown in **Library & connector**:
+
+| System | Default data folder |
+| --- | --- |
+| macOS | `~/Library/Application Support/Folio` |
+| Windows | `%LOCALAPPDATA%/Folio` |
+| Linux | `~/.local/share/folio`, or the configured XDG data directory |
+
+Advanced users may have changed this with `FOLIO_DATA_DIR`; the app's displayed path is authoritative.
+
+## Update Folio
+
+1. In **Library & connector**, choose **Download full compressed backup** and keep it somewhere safe. A reference-only export does not include your PDFs.
+2. Quit Folio and stop its terminal process.
+3. Download and extract a fresh source ZIP. Open a terminal in that new folder.
+4. Run `npm ci`, then `npm run desktop`.
+5. Confirm your library, a PDF, and notes open correctly before discarding the older source folder.
+
+Keep the existing library folder. Do not delete it to update the application. If you changed the data directory for the earlier version, use the same setting for the new one. [Backup and restoration details →](user-guide.md#back-up-restore-and-move-your-library)
+
+## Browser mode
+
+If you prefer a browser window, run these commands from the extracted project folder instead of the desktop command:
+
+```sh
+npm ci
+npm run build
+npm start
+```
+
+Open **http://127.0.0.1:47821/papers** and leave the terminal running. On later launches, `npm start` is enough until you update the source; rebuild after an update. Stop it with `Ctrl+C` before launching desktop mode.
+
+The address is local to your computer. Folio is not intended to be exposed as an internet server. Browser and desktop modes normally share your library. Some desktop-specific AI/credential capabilities differ in browser mode.
+
+## Common setup problems
+
+| What you see | What to do |
+| --- | --- |
+| `npm: command not found` or “npm is not recognized” | Install Node.js with npm, close/reopen the terminal, then run `node --version` and `npm --version`. |
+| `package.json` not found / `ENOENT` | The terminal is in the wrong folder. Open the extracted folder containing `package.json` and start the terminal there. |
+| Node version or engine warning | Install a supported LTS version at least 22.13, reopen the terminal, and repeat `npm ci`. |
+| `npm.ps1 cannot be loaded` on Windows | Use Command Prompt as described above, or invoke `npm.cmd` in PowerShell. |
+| Download or network error during `npm ci` | Check internet/proxy access and retry. The first setup downloads Node packages and Electron. |
+| Port 47821 is busy / another instance is running | Quit other Folio instances and stop earlier `npm start`/desktop processes with `Ctrl+C`. Then retry. |
+| Terminal prints build output before opening | This is expected: `npm run desktop` builds the source, then launches Electron. Wait for completion or inspect the final error. |
+| No desktop icon after setup | Expected for the source preview. Reopen with `npm run desktop` from the project folder. |
+| The online demo does not import my papers | It is an illustration. Launch the real app with these instructions. |
+
+If setup still fails, report your OS, Node version, command used, and the final error message. Do not include private library files, connector tokens, API keys, or account credentials.
+
+Automated source checks run on macOS, Windows, and Linux. Installer signing and installer/device compatibility are separate checks; passing source checks does not mean every desktop configuration has been verified.
