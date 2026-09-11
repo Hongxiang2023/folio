@@ -3,35 +3,49 @@
 </p>
 <h1 align="center">Folio</h1>
 <p align="center"><strong>Your papers. Your notes. Your next manuscript.</strong></p>
-<p align="center">A free, local-first paper library with PDF reading, browser capture, and references that follow your revisions.</p>
+<p align="center">A free, local-first reference manager for reading papers and writing manuscripts.</p>
 <p align="center">
   <a href="docs/install.md"><strong>Get started</strong></a> ·
   <a href="https://hongxiang2023.github.io/folio/demo/">Try the demo</a> ·
   <a href="docs/user-guide.md">User guide</a>
 </p>
 
-## Start here
+## Download Folio
 
-**No ready-to-install app download yet.** Folio is an early preview that runs from source and opens a desktop window. You will need Node.js and a terminal; the source ZIP is not an app installer.
+### Mac with Apple silicon · macOS 13 or newer
 
-1. **Install Node.js:** download an LTS version from [nodejs.org](https://nodejs.org/en/download). Folio requires Node.js 22.13 or newer.
-2. **Download Folio:** [Download source ZIP](https://github.com/Hongxiang2023/folio/archive/refs/heads/main.zip), then extract it. The folder is normally named `folio-main`.
-3. **Open a terminal in that folder**, then run these two commands, one at a time:
+**[Download Folio for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/folio/releases/download/v0.1.0-preview.1/Folio-0.1.0-arm64.dmg)**
 
-   ```sh
-   npm ci
-   npm run desktop
-   ```
+No Node.js or terminal is needed.
 
-The first command downloads dependencies. The second builds Folio and opens its desktop window. Keep the terminal open while using it. Your library is stored separately from the downloaded source folder.
+1. Open the downloaded `.dmg` file.
+2. Drag **Folio** into **Applications**.
+3. Open **Folio** from Applications. On later visits, open it like any other Mac app.
 
-**New to terminals?** Follow the step-by-step [macOS](docs/install.md#macos), [Windows](docs/install.md#windows), or [Linux](docs/install.md#linux) instructions, including how to open Folio again later.
+**Early preview:** this build is not Apple-notarized or Developer ID-signed, so macOS may block its first launch. Only if you trust this download, follow [the first-launch instructions](docs/install.md#if-macos-blocks-the-first-launch) using **System Settings → Privacy & Security → Open Anyway**. Keep normal macOS security protections enabled.
 
-| Want to… | Choose this |
+Not sure which Mac you have? **Apple menu → About This Mac** lists an Apple M-series **Chip** on Apple silicon. An Intel **Processor** needs the source setup below. [Check your Mac and install →](docs/install.md#macos)
+
+| Your computer or goal | Start here |
 | --- | --- |
-| Use Folio with your own papers | [Install and launch the desktop preview](docs/install.md) |
-| Explore without installing anything | [Open the interactive demo](https://hongxiang2023.github.io/folio/demo/) — an illustration, not the app |
-| Try the real app with fictional data | [Follow the hands-on demo](docs/demo.md) |
+| Mac with Apple silicon | [Download the Mac app](https://github.com/Hongxiang2023/folio/releases/download/v0.1.0-preview.1/Folio-0.1.0-arm64.dmg) · [Installation help](docs/install.md#macos) |
+| Intel Mac, Windows, or Linux | [Run from source](docs/install.md#source-installation) — Node.js required; installers not provided yet |
+| Explore without installing | [Try the interactive demo](https://hongxiang2023.github.io/folio/demo/) — an illustration, not the app |
+| Practice with fictional papers | [Follow the hands-on demo](docs/demo.md) |
+
+<details>
+<summary><strong>Source setup in two commands</strong></summary>
+
+Install [Node.js LTS](https://nodejs.org/en/download) (22.13 or newer). [Download the source ZIP](https://github.com/Hongxiang2023/folio/archive/refs/heads/main.zip), extract it, and open a terminal in the folder containing `package.json`:
+
+```sh
+npm ci
+npm run desktop
+```
+
+This source ZIP is project code, not the Mac app installer. [Step-by-step instructions for each system →](docs/install.md#source-installation)
+
+</details>
 
 ## A home for the whole reading workflow
 
@@ -77,7 +91,7 @@ Rules cover several Nature-family layouts, Cell Reports, Science Advances, and c
 
 [Installation & troubleshooting](docs/install.md) · [Complete user guide](docs/user-guide.md) · [Browser connector](docs/user-guide.md#save-papers-with-the-browser-connector) · [Backup & restore](docs/user-guide.md#back-up-restore-and-move-your-library) · [Optional AI](docs/user-guide.md#ask-a-paper-with-optional-ai)
 
-Folio is an independent early-preview project. It currently has no cloud sync, shared libraries, OCR, or live Word/Google Docs add-in. Review metadata and generated references before submission. Automated source checks cover macOS, Windows, and Linux; this does not establish installer compatibility on every computer.
+Folio is an independent early-preview project. It currently has no cloud sync, shared libraries, OCR, or live Word/Google Docs add-in. Review metadata and generated references before submission. Automated source checks cover macOS, Windows, and Linux; the downloadable preview currently targets Apple silicon Macs only.
 
 <details>
 <summary><strong>For developers and contributors</strong></summary>

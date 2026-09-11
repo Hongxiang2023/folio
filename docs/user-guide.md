@@ -16,7 +16,7 @@ This guide covers the current local desktop/browser app. Start with [the demo](d
 
 ## Install and open Folio
 
-Follow [Run from source](../README.md#run-from-source). Browser mode opens at `http://127.0.0.1:47821/papers`; the local service must keep running. Desktop mode starts its own service. Stop one mode before starting the other with the same library.
+Follow the [installation guide](install.md): Apple silicon Macs can use the downloadable app; other platforms can run from source. Browser mode opens at `http://127.0.0.1:47821/papers`; the local service must keep running. Desktop mode starts its own service. Stop one mode before starting the other with the same library.
 
 No Folio account is required. Saved PDFs, organization, reading caches, and formatting with installed citation styles work offline. Public metadata lookup, connector publisher downloads, style downloads, and cloud AI require internet access.
 

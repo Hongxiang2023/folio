@@ -1,14 +1,53 @@
 # Install and open Folio
 
-**No ready-to-install app download is available yet.** Folio currently runs as a **desktop preview from source**. You download a project folder, install its dependencies once, and launch it with a command. This creates a desktop window; it does not install a permanent Folio shortcut in Applications or the Start menu.
+Folio is a free, local-first reference manager for reading papers and writing manuscripts.
 
-- **Source ZIP:** the project files. Follow the steps below to run them.
-- **Desktop installer:** a packaged app such as a `.dmg`, `.exe`, or `.AppImage`. The source ZIP is not one of these.
-- **Online demo:** a clickable illustration at [the demo site](https://hongxiang2023.github.io/folio/demo/). It does not open or store your real library.
+| Your system | Installation |
+| --- | --- |
+| Mac with Apple silicon | [Download and install the Mac app](#macos). No Node.js or terminal required. |
+| Intel Mac | [Run from source](#macos-from-source). No Intel installer is provided yet. |
+| Windows | [Run from source](#windows). No Windows installer is provided yet. |
+| Linux | [Run from source](#linux). No Linux installer is provided yet. |
 
-Choose your system: [macOS](#macos) · [Windows](#windows) · [Linux](#linux)
+The [online demo](https://hongxiang2023.github.io/folio/demo/) is a clickable illustration, not the app. A **source ZIP** contains project files and needs Node.js; the **Mac DMG** contains the ready-to-copy application.
 
-## Before you begin
+## macOS
+
+### Check your Mac
+
+This app requires **macOS 13 Ventura or newer** and an **Apple silicon (M-series) chip**.
+
+Choose **Apple menu → About This Mac**. A **Chip** entry with an Apple M-series name, such as Apple M1 or M2, identifies Apple silicon. An **Intel Processor** entry identifies an Intel Mac; use [the source instructions](#macos-from-source) instead. See [Apple's hardware identification guide](https://support.apple.com/en-ca/116943).
+
+### Download and install
+
+1. **[Download Folio-0.1.0-arm64.dmg](https://github.com/Hongxiang2023/folio/releases/download/v0.1.0-preview.1/Folio-0.1.0-arm64.dmg)** from this project's GitHub release.
+2. Double-click the downloaded DMG. A disk-image window opens.
+3. Drag **Folio** to **Applications**. If you already have Folio installed, quit it and back up your library before replacing the app.
+4. Open **Applications → Folio**. Run the installed copy rather than leaving the application inside the disk image.
+5. Eject the Folio disk image when installation is complete. On later launches, open Folio from Applications or find it with Spotlight.
+
+**No Node.js, npm, terminal, or source-code download is required for this Mac app.** Your library is stored separately from the application, so replacing the app does not require deleting your papers.
+
+### If macOS blocks the first launch
+
+This is an **early preview with an ad-hoc signature**. It is **not signed with an Apple Developer ID and has not been notarized by Apple**. macOS may say it cannot verify the developer or check the app for malicious software.
+
+Only proceed if you trust the source and intended to download this Folio release. After trying to open it:
+
+1. Open **Apple menu → System Settings → Privacy & Security**.
+2. Find the notice about Folio and choose **Open Anyway**.
+3. Confirm **Open** and authenticate if macOS asks.
+
+This follows [Apple's instructions for opening an app from an unidentified developer](https://support.apple.com/en-us/102445). It creates an exception for the app; do not disable Gatekeeper or remove quarantine attributes with terminal commands. If macOS reports actual malware, the app is damaged, or no appropriate exception is offered, stop and report the exact message rather than bypassing it. An organization-managed Mac may require your administrator's approval.
+
+### Open Folio again or install an update
+
+Open **Applications → Folio** normally. No command prompt needs to remain open for the installed app.
+
+Before an update, use **Library & connector → Download full compressed backup**, quit Folio, then copy the newer app into Applications. Keep the library folder in place and verify a few papers and notes after reopening. [Backup and restore guide →](user-guide.md#back-up-restore-and-move-your-library)
+
+## Source installation
 
 You need internet access for the first dependency download and **Node.js 22.13 or newer**. Install an LTS version from the [official Node.js download page](https://nodejs.org/en/download). Node.js includes `npm`, the command used below. Installing Node.js alone does not install Folio.
 
@@ -16,7 +55,9 @@ Download the [Folio source ZIP](https://github.com/Hongxiang2023/folio/archive/r
 
 If Folio is already running, quit it before starting another instance. The desktop app and browser mode use the same local port and, by default, the same library.
 
-## macOS
+Source setup opens a desktop window but does not install an Applications or Start menu shortcut. Follow the matching section: [macOS from source](#macos-from-source), [Windows](#windows), or [Linux](#linux).
+
+## macOS from source
 
 ### First launch
 
@@ -122,7 +163,7 @@ Your papers are **not stored in the extracted source folder** by default. The ex
 
 Advanced users may have changed this with `FOLIO_DATA_DIR`; the app's displayed path is authoritative.
 
-## Update Folio
+## Update a source installation
 
 1. In **Library & connector**, choose **Download full compressed backup** and keep it somewhere safe. A reference-only export does not include your PDFs.
 2. Quit Folio and stop its terminal process.
@@ -157,9 +198,9 @@ The address is local to your computer. Folio is not intended to be exposed as an
 | Download or network error during `npm ci` | Check internet/proxy access and retry. The first setup downloads Node packages and Electron. |
 | Port 47821 is busy / another instance is running | Quit other Folio instances and stop earlier `npm start`/desktop processes with `Ctrl+C`. Then retry. |
 | Terminal prints build output before opening | This is expected: `npm run desktop` builds the source, then launches Electron. Wait for completion or inspect the final error. |
-| No desktop icon after setup | Expected for the source preview. Reopen with `npm run desktop` from the project folder. |
+| No desktop icon after source setup | Expected for a source launch. Reopen with `npm run desktop` from the project folder. The Mac DMG instead installs a normal app in Applications. |
 | The online demo does not import my papers | It is an illustration. Launch the real app with these instructions. |
 
 If setup still fails, report your OS, Node version, command used, and the final error message. Do not include private library files, connector tokens, API keys, or account credentials.
 
-Automated source checks run on macOS, Windows, and Linux. Installer signing and installer/device compatibility are separate checks; passing source checks does not mean every desktop configuration has been verified.
+Automated source checks run on macOS, Windows, and Linux. The downloadable preview currently targets Apple silicon Macs only. Source checks do not mean every desktop configuration or installer has been verified.

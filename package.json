@@ -1,7 +1,7 @@
 {
   "name": "folio-reference-manager",
   "version": "0.1.0",
-  "description": "A free local-first paper library and browser connector",
+  "description": "A free, local-first reference manager for reading papers and writing manuscripts",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -77,6 +77,14 @@
         "filter": [
           "**/*"
         ]
+      },
+      {
+        "from": "node_modules/electron/dist/LICENSE",
+        "to": "licenses/Electron-LICENSE.txt"
+      },
+      {
+        "from": "node_modules/electron/dist/LICENSES.chromium.html",
+        "to": "licenses/LICENSES.chromium.html"
       }
     ]
   }
