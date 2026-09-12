@@ -14,7 +14,7 @@
 
 ### Mac with Apple silicon · macOS 13 or newer
 
-**[Download Folio for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/folio/releases/download/v0.1.1-preview.1/Folio-0.1.1-arm64.dmg)**
+**[Download Folio for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/folio/releases/download/v0.1.2-preview.1/Folio-0.1.2-arm64.dmg)**
 
 No Node.js or terminal is needed.
 
@@ -28,7 +28,7 @@ Not sure which Mac you have? **Apple menu → About This Mac** lists an Apple M-
 
 | Your computer or goal | Start here |
 | --- | --- |
-| Mac with Apple silicon | [Download the Mac app](https://github.com/Hongxiang2023/folio/releases/download/v0.1.1-preview.1/Folio-0.1.1-arm64.dmg) · [Installation help](docs/install.md#macos) |
+| Mac with Apple silicon | [Download the Mac app](https://github.com/Hongxiang2023/folio/releases/download/v0.1.2-preview.1/Folio-0.1.2-arm64.dmg) · [Installation help](docs/install.md#macos) |
 | Intel Mac, Windows, or Linux | [Run from source](docs/install.md#source-installation) — Node.js required; installers not provided yet |
 | Explore without installing | [Try the interactive demo](https://hongxiang2023.github.io/folio/demo/) — an illustration, not the app |
 | Practice with fictional papers | [Follow the hands-on demo](docs/demo.md) |
@@ -55,6 +55,7 @@ This source ZIP is project code, not the Mac app installer. [Step-by-step instru
 | Look up PMID, DOI, or arXiv metadata | Text, figures, legends, and source-page links | APA, Nature, Vancouver, IEEE, and more CSL styles |
 | Save pages with the Chrome/Edge connector | Five highlight colors, passage notes, and figure zoom | Word upload, formatted export, and revised bibliography |
 | Collections, tags, stars, reading status | Optional paper chat using your AI provider | BibTeX copy and full library backups |
+| Optional cloud-provider folder for references and PDFs | Reading caches and conversations remain local | Provider-managed online-only PDFs to reduce disk use |
 
 No Folio account or subscription is needed for core features. Your references, PDFs, notes, and highlights stay on your computer. Public identifier lookup and optional AI use external services only for their respective tasks; AI requires your own connection and explicit per-paper enablement.
 
@@ -87,11 +88,13 @@ Open **Read PDF → Reading view** for locally extracted text and figures, secti
 
 Rules cover several Nature-family layouts, Cell Reports, Science Advances, and common article layouts. Extraction remains imperfect for some tables, mathematics, scans, and unusual PDFs; the original stays available. [Reading guide →](docs/user-guide.md#read-pdfs-and-create-reading-views)
 
+**Need more disk space?** In the desktop app, use **Library & connector → Choose library folder** to move reference data and PDFs into a folder managed by your cloud provider’s desktop app. After upload completes, use that provider’s online-only option for PDFs. Moving alone does not free space; Folio does not manage provider sync or merge simultaneous edits. [Cloud-folder guide →](docs/user-guide.md#use-a-cloud-provider-folder)
+
 ## Learn more
 
 [Installation & troubleshooting](docs/install.md) · [Complete user guide](docs/user-guide.md) · [Browser connector](docs/user-guide.md#save-papers-with-the-browser-connector) · [Backup & restore](docs/user-guide.md#back-up-restore-and-move-your-library) · [Optional AI](docs/user-guide.md#ask-a-paper-with-optional-ai)
 
-Folio is an independent early-preview project. It currently has no cloud sync, shared libraries, OCR, or live Word/Google Docs add-in. Review metadata and generated references before submission. Automated source checks cover macOS, Windows, and Linux; the downloadable preview currently targets Apple silicon Macs only.
+Folio is an independent early-preview project. It currently has no built-in cloud sync engine, simultaneous shared-library editing, OCR, or live Word/Google Docs add-in. Review metadata and generated references before submission. Automated source checks cover macOS, Windows, and Linux; the downloadable preview currently targets Apple silicon Macs only.
 
 <details>
 <summary><strong>For developers and contributors</strong></summary>

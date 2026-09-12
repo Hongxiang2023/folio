@@ -12,13 +12,14 @@ This guide covers the current local desktop/browser app. Start with [the demo](d
 - [Generate and revise manuscript references](#generate-and-revise-manuscript-references)
 - [Save papers with the browser connector](#save-papers-with-the-browser-connector)
 - [Back up, restore, and move your library](#back-up-restore-and-move-your-library)
+- [Use a cloud-provider folder](#use-a-cloud-provider-folder)
 - [Troubleshooting and limits](#troubleshooting-and-limits)
 
 ## Install and open Folio
 
 Follow the [installation guide](install.md): Apple silicon Macs can use the downloadable app; other platforms can run from source. Browser mode opens at `http://127.0.0.1:47821/papers`; the local service must keep running. Desktop mode starts its own service. Stop one mode before starting the other with the same library.
 
-No Folio account is required. Saved PDFs, organization, reading caches, and formatting with installed citation styles work offline. Public metadata lookup, connector publisher downloads, style downloads, and cloud AI require internet access.
+No Folio account is required. Locally available PDFs, organization, reading caches, and formatting with installed citation styles work offline. Online-only PDFs need your cloud provider to download them first. Public metadata lookup, connector publisher downloads, style downloads, and cloud AI require internet access.
 
 ## Add and edit papers
 
@@ -89,7 +90,7 @@ A reading cache is generated on this computer and reused offline. Identical PDFs
 
 Caches add disk use. Folio loads a paper's reading cache when that reading view is opened; generating more reading views does not mean every cache is loaded during normal startup. Actual opening speed still depends on the library, computer, PDF, and cache size.
 
-**Remove reading cache** deletes the derived view while keeping the PDF, notes, highlights, and chat. Full compressed backups omit caches because they can be regenerated; copying the entire library folder includes them. Storage totals appear under **Library & connector**.
+**Remove reading cache** deletes the derived view while keeping the PDF, notes, highlights, and chat. Full compressed backups omit caches because they can be regenerated; copying the local application-data folder includes them. When the library is moved to a provider folder, reading caches remain in that local application-data folder. Storage totals appear under **Library & connector**.
 
 Reading extraction supports up to 500 pages, a 16 MiB encoded-image budget, and a 24 MiB total cache limit. These are reading-view limits, not PDF import limits. Scanned and password-protected files, complex tables, unusual columns, and inline mathematics may need the original viewer. OCR is not included.
 
@@ -193,18 +194,52 @@ Advanced users can set `FOLIO_DATA_DIR` before startup. Do not run two services 
 
 **Export references** downloads Folio JSON with reference metadata, including notes/highlights where present, but without PDF attachments. Use this for reference transfer, not as your only PDF backup.
 
-**Download full compressed backup**, in **Library & connector**, creates a `.tar.gz` with references, referenced PDFs, and supported local library data such as conversations. It excludes regenerable reading caches and private pairing/API/account credentials. PDFs are losslessly archived rather than downsampled. Keep Folio open until the download finishes.
+**Download full compressed backup**, in **Library & connector**, creates a `.tar.gz` with references, referenced PDFs, and supported local library data such as conversations. It excludes regenerable reading caches and private pairing/API/account credentials. PDFs are losslessly archived rather than downsampled. Keep Folio open until the download finishes. A full backup reads every referenced PDF, so online-only PDFs download again and temporarily use local disk space.
 
 To restore a downloaded backup:
 
 1. Quit Folio and stop its local service.
 2. Preserve the current library folder as a rollback copy.
-3. Extract the archive. Restore its contents into the intended library folder, keeping `library.json` and `pdfs/` together and retaining other included library subfolders.
+3. Extract the archive. For the default local setup, restore its contents into the intended library folder, keeping `library.json` and `pdfs/` together and retaining other included library subfolders. For a moved library, restore `library.json`, `pdfs/`, and `citation-styles/` into the selected library folder; restore `paper-chat/` into the original local application-data folder, not the cloud folder.
 4. Reopen Folio and check a few references, PDFs, notes, and conversations. Recreate reading caches as needed; pair the connector again if its token is absent.
 
-You can also quit Folio and copy the entire library folder to another disk. That copy includes caches and may include private credentials; treat it as private. Never put your live library folder in a public repository.
+You can also quit Folio and copy its folders to another disk. In the default setup, copying the entire library folder includes caches and may include private credentials. After moving a library, reference data/PDFs and private local data are in different folders; back up both if you need a complete manual copy. Treat any such copy as private. Never put your live library folder in a public repository.
 
 For the earlier browser prototype, first export its reference backup and import the JSON here. Old browser-stored PDFs do not move automatically; download/re-attach them and keep the old data until migration is verified.
+
+## Use a cloud-provider folder
+
+This optional desktop feature changes where Folio stores its reference data and PDFs. Your installed OneDrive, Google Drive for desktop, Box Drive, or another compatible provider app handles uploads and online-only files. Folio does not sign into those services through OAuth, upload through a provider API, or guarantee that their syncing has finished.
+
+### Move an existing library
+
+1. Install and sign in to the provider’s desktop app. Confirm its managed folder is available in Finder or your file manager.
+2. In Folio, download a **full compressed backup** and wait for it to finish. Stop other imports/downloads before moving.
+3. Open **Library & connector → Choose library folder**. Create/select an **empty folder** inside the provider-managed location, then review the native confirmation. The chooser moves your current library; it is not an importer for an already populated second library.
+4. Keep Folio open while it copies and verifies the files. Folio restarts using the new location, verifies the move, and cleans up the migrated source copies after successful activation. Do not manually delete the source to finish a move.
+5. Reopen settings and use **Open folder** to inspect the selected location. Check a PDF, notes, and reference details, then wait for the provider’s upload to finish.
+
+The moved files are `library.json`, `pdfs/`, and installed `citation-styles/`. Reference-level reading notes, colors, highlights, and passage notes are part of `library.json`, so they move with it. Connector tokens, API/account credentials, paper conversations, and reading caches stay in the original **local application-data folder**. They are not moved into the provider folder by this feature.
+
+### Free space after the upload
+
+**Moving into a cloud folder does not itself make PDFs online-only.** After confirming the provider has uploaded the library, use its file-manager controls for `pdfs/`. Do not delete PDFs or drag them to Trash as a space-saving technique; a provider can sync those deletions.
+
+| Provider | What to check |
+| --- | --- |
+| OneDrive on Mac | Files On-Demand lets uploaded PDFs become online-only through **Free up space**. Opening one downloads it again; **Always keep on this device** retains a local copy. [Microsoft instructions](https://support.microsoft.com/en-us/onedrive/save-disk-space-with-onedrive-files-on-demand-for-mac) |
+| Google Drive for desktop | **Stream files** keeps most content in the cloud and downloads accessed files. **Mirror files** keeps a full local copy and does not provide the same space saving. [Google instructions](https://support.google.com/drive/answer/13401938?hl=en) |
+| Box Drive | **Free up space** removes an offline copy without deleting the Box item. File/folder offline controls vary by version and platform; Box also uses a local cache. [Box guidance](https://support.box.com/hc/en-us/articles/29475996910867-Box-Drive-Frequently-Asked-Questions) |
+
+Keep **`library.json` available offline** so Folio can open and update its reference database reliably. If your provider version cannot keep that file offline independently of the PDF folder, do not make the whole library online-only. Installed styles should also remain available locally when needed. Download the papers you need before working without internet.
+
+The **PDF file size** shown in Folio is the logical size of its PDFs, not a promise about physical disk space currently occupied by provider placeholders or caches. Folio does not read every PDF simply to refresh that size statistic. Opening, parsing, backing up, or moving an online-only PDF reads its contents and can download it again. Use your provider and operating system’s storage information to assess actual disk use.
+
+### Avoid conflicting edits
+
+Use a library on **one computer at a time**. Quit Folio on the first computer, wait for its provider upload, and wait for downloads on the other computer before opening it there. Folio does not merge simultaneous database edits; provider conflict copies are not automatically combined. The folder chooser is for moving the current library into an empty destination, not a complete multi-computer setup or library-merging tool.
+
+If the selected folder is unavailable, restore provider availability before reopening. Keep a separate backup: sync can propagate deletions and mistakes. There is no guarantee that a provider has finished uploading merely because Folio’s local move has completed.
 
 ## Troubleshooting and limits
 
@@ -223,4 +258,4 @@ For the earlier browser prototype, first export its reference backup and import 
 | AI cannot connect | Check provider/model, key or sign-in state, network, and account limits. ChatGPT account mode currently requires macOS. |
 | AI misses a result | Include the relevant selected passage or figure and verify the original; excerpt selection and model answers can be incomplete. |
 
-Folio currently has no cloud sync, shared library, full-text library search, editable PDF annotation layer, arbitrary BibTeX import, or live Word/Google Docs plugin. Keep a backup and review references and PDF extraction before relying on them for publication.
+Folio currently has no built-in cloud sync engine, simultaneous shared-library editing, full-text library search, editable PDF annotation layer, arbitrary BibTeX import, or live Word/Google Docs plugin. Keep a backup and review references and PDF extraction before relying on them for publication.

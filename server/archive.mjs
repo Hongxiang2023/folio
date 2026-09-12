@@ -10,13 +10,13 @@ function tarHeader(name,size){
  oct(0o600,100,8);oct(0,108,8);oct(0,116,8);oct(size,124,12);oct(Math.floor(Date.now()/1000),136,12);block.fill(32,148,156);block.write('0',156);block.write('ustar\0',257);block.write('00',263);
  const checksum=block.reduce((a,b)=>a+b,0);block.write(checksum.toString(8).padStart(6,'0')+'\0 ',148,8);return block;
 }
-export async function streamBackup(res,library,dataDir){
+export async function streamBackup(res,library,dataDir,localDataDir=dataDir){
  async function* entries(){
   const metadata=Buffer.from(JSON.stringify(library,null,2));yield tarHeader('library.json',metadata.length);yield metadata;if(metadata.length%512)yield Buffer.alloc(512-metadata.length%512);
   const ids=new Set(library.papers.map(p=>p.pdfId).filter(Boolean));
   for(const id of ids){const filename=path.join(dataDir,'pdfs',`${id}.pdf`);const {size}=await stat(filename);yield tarHeader(`pdfs/${id}.pdf`,size);for await(const chunk of createReadStream(filename))yield chunk;if(size%512)yield Buffer.alloc(512-size%512);}
   // Conversations are user work; connection settings and credentials never enter backups.
-  for(const id of ids){let chat;try{chat=await readFile(path.join(dataDir,'paper-chat',id+'.json'));}catch(e){if(e.code==='ENOENT')continue;throw e;}yield tarHeader(`paper-chat/${id}.json`,chat.length);yield chat;if(chat.length%512)yield Buffer.alloc(512-chat.length%512);}
+  for(const id of ids){let chat;try{chat=await readFile(path.join(localDataDir,'paper-chat',id+'.json'));}catch(e){if(e.code==='ENOENT')continue;throw e;}yield tarHeader(`paper-chat/${id}.json`,chat.length);yield chat;if(chat.length%512)yield Buffer.alloc(512-chat.length%512);}
   let styleFiles=[];try{styleFiles=(await readdir(path.join(dataDir,'citation-styles'))).filter(n=>/^[a-f0-9]{64}\.json$/.test(n));}catch(e){if(e.code!=='ENOENT')throw e;}
   for(const name of styleFiles){const value=await readFile(path.join(dataDir,'citation-styles',name));yield tarHeader(`citation-styles/${name}`,value.length);yield value;if(value.length%512)yield Buffer.alloc(512-value.length%512);}
   yield Buffer.alloc(1024);

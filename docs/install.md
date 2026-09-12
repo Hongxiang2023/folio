@@ -21,7 +21,7 @@ Choose **Apple menu → About This Mac**. A **Chip** entry with an Apple M-serie
 
 ### Download and install
 
-1. **[Download Folio-0.1.1-arm64.dmg](https://github.com/Hongxiang2023/folio/releases/download/v0.1.1-preview.1/Folio-0.1.1-arm64.dmg)** from this project's GitHub release.
+1. **[Download Folio-0.1.2-arm64.dmg](https://github.com/Hongxiang2023/folio/releases/download/v0.1.2-preview.1/Folio-0.1.2-arm64.dmg)** from this project's GitHub release.
 2. Double-click the downloaded DMG. A disk-image window opens.
 3. Drag **Folio** to **Applications**. If you already have Folio installed, quit it and back up your library before replacing the app.
 4. Open **Applications → Folio**. Run the installed copy rather than leaving the application inside the disk image.

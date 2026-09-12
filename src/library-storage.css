@@ -1,0 +1,23 @@
+.folio-library-location{margin-top:26px;padding:18px;border:1px solid #d4e1d5;border-radius:10px;background:#f5f8f2}
+.folio-library-location-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.folio-modal .folio-library-location h3{margin:0;font-size:18px}
+.folio-location-badge{padding:3px 8px;border:1px solid #c3d4c2;border-radius:12px;color:#416046;background:#e9f1e4;font-size:11px}
+.folio-library-location>p,.folio-cloud-folder-help p,.folio-cloud-folder-help li{font-size:13px;line-height:1.65;color:#526653}
+.folio-library-location>p{margin:12px 0}
+.folio-location-label{display:block;font-size:11px;font-weight:600;letter-spacing:.02em;color:#617263;margin-top:14px}
+.folio-location-path{display:block;max-height:110px;overflow:auto;overflow-wrap:anywhere;white-space:pre-wrap;background:#fff;border:1px solid #dce5d9;padding:10px 12px;border-radius:6px;margin:6px 0 14px;font:12px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;color:#304b36}
+.folio-location-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.folio-modal .folio-location-actions .folio-primary{width:auto;margin:0;font-size:13px;padding:9px 12px}
+.folio .folio-location-open{padding:8px 12px;border:1px solid #bed0bc;border-radius:6px;background:#fff;color:#385c40;font-size:13px}
+.folio-library-location .folio-location-hint{font-size:12px;margin:10px 0 0;color:#647363}
+.folio-cloud-folder-help{margin-top:16px;padding-top:14px;border-top:1px solid #d9e3d5;font-size:13px}
+.folio-cloud-folder-help summary{cursor:pointer;color:#345f3f;font-weight:600}
+.folio-cloud-folder-help ol{padding-left:20px;margin:12px 0}
+.folio-modal .folio-cloud-folder-help li{margin:8px 0;font-size:13px}
+.folio-cloud-folder-help code{font-size:12px}
+.folio-library-location .folio-location-unavailable{background:#edf1e9;padding:10px 12px;border-radius:6px}
+.folio-library-location .folio-location-status{margin-bottom:0;color:#345f3f;font-size:12px}
+.folio-location-error{margin-top:14px;padding:10px 12px;border:1px solid #e0c093;background:#fff6e9;border-radius:6px;color:#785224;font-size:13px;overflow-wrap:anywhere}
+.folio-location-error p{margin:0;line-height:1.6}
+.folio-location-error button{margin-top:8px;font-size:12px;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:500px){.folio-library-location{padding:14px}.folio-location-actions{align-items:stretch}.folio-modal .folio-location-actions .folio-primary,.folio .folio-location-open{flex:1;text-align:center}}
