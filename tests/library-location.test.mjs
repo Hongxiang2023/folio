@@ -74,3 +74,16 @@ test('a failure before config commit still rejects activation and leaves the ori
  await withOpenFailure(t,file=>String(file).includes('library-location.json.'),()=>assert.rejects(activateLibraryMove({configDir:s.configDir,migrationId:move.id}),/Injected/));
  assert.equal((await s.resolve()).dataDir,s.sourceDir);assert.equal((await s.resolve()).migration.status,'prepared');
 });
+
+test('copied files use writable handles for durable flush, including read-only source documents',async t=>{
+ const s=await setup(t),pdf=path.join(s.sourceDir,'pdfs',id+'.pdf');await fsPromises.chmod(pdf,0o444);const flushed=[];
+ const original=fsPromises.open;t.mock.method(fsPromises,'open',async(file,flags,...rest)=>{
+  if(typeof file==='string'&&file.startsWith(s.targetDir+path.sep)&&/\.(pdf|json)$/.test(file)){
+   // Windows FlushFileBuffers rejects read-only handles; model that behavior.
+   assert.equal(flags,'r+');flushed.push(file);
+  }
+  return original(file,flags,...rest);
+ });syncBuiltinESMExports();
+ try{const move=await prepareLibraryMove(s);assert.equal(flushed.length,move.fileCount);assert.equal(await readFile(path.join(s.targetDir,'pdfs',id+'.pdf'),'utf8'),'%PDF original');if(process.platform!=='win32')assert.equal((await fsPromises.stat(pdf)).mode&0o777,0o444);}
+ finally{t.mock.restoreAll();syncBuiltinESMExports();await fsPromises.chmod(pdf,0o600);}
+});

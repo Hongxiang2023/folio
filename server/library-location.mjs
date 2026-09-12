@@ -1,4 +1,4 @@
-import {mkdir,readFile,writeFile,rename,rm,rmdir,lstat,realpath,readdir,copyFile,open} from 'node:fs/promises';
+import {mkdir,readFile,writeFile,rename,rm,rmdir,chmod,lstat,realpath,readdir,copyFile,open} from 'node:fs/promises';
 import {createReadStream,constants} from 'node:fs';
 import {createHash,randomUUID} from 'node:crypto';
 import path from 'node:path';
@@ -46,7 +46,7 @@ export async function prepareLibraryMove({sourceDir,targetDir,configDir}){
  const m={version:1,id:randomUUID(),sourceDir,targetDir,status:'prepared',files};
  // Record ownership before copying. An interruption never changes the active location.
  await atomic(journalFile(configDir),m);
- try{for(const f of files){const dest=path.join(targetDir,f.name);await mkdir(path.dirname(dest),{recursive:true,mode:0o700});await plainPath(path.dirname(dest));if(f.sourceExists)await copyFile(path.join(sourceDir,f.name),dest,constants.COPYFILE_EXCL);else await writeFile(dest,JSON.stringify(value),{flag:'wx',mode:0o600});const handle=await open(dest,'r');try{await handle.sync();}finally{await handle.close();}await syncDirectory(path.dirname(dest));}
+ try{for(const f of files){const dest=path.join(targetDir,f.name);await mkdir(path.dirname(dest),{recursive:true,mode:0o700});await plainPath(path.dirname(dest));if(f.sourceExists)await copyFile(path.join(sourceDir,f.name),dest,constants.COPYFILE_EXCL);else await writeFile(dest,JSON.stringify(value),{flag:'wx',mode:0o600});await chmod(dest,0o600);const handle=await open(dest,'r+');try{await handle.sync();}finally{await handle.close();}await syncDirectory(path.dirname(dest));}
  await syncDirectory(targetDir);await verify(m,'target');await verify(m,'source');return {...brief(m),warnings:recoveryWarnings};}catch(error){try{await cancelLibraryMove({configDir,migrationId:m.id});}catch{}throw error;}
 }
 export async function activateLibraryMove({configDir,migrationId}){
