@@ -14,7 +14,7 @@
 
 ### Mac with Apple silicon · macOS 13 or newer
 
-**[Download Folio for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/folio/releases/download/v0.1.0-preview.1/Folio-0.1.0-arm64.dmg)**
+**[Download Folio for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/folio/releases/download/v0.1.1-preview.1/Folio-0.1.1-arm64.dmg)**
 
 No Node.js or terminal is needed.
 
@@ -28,7 +28,7 @@ Not sure which Mac you have? **Apple menu → About This Mac** lists an Apple M-
 
 | Your computer or goal | Start here |
 | --- | --- |
-| Mac with Apple silicon | [Download the Mac app](https://github.com/Hongxiang2023/folio/releases/download/v0.1.0-preview.1/Folio-0.1.0-arm64.dmg) · [Installation help](docs/install.md#macos) |
+| Mac with Apple silicon | [Download the Mac app](https://github.com/Hongxiang2023/folio/releases/download/v0.1.1-preview.1/Folio-0.1.1-arm64.dmg) · [Installation help](docs/install.md#macos) |
 | Intel Mac, Windows, or Linux | [Run from source](docs/install.md#source-installation) — Node.js required; installers not provided yet |
 | Explore without installing | [Try the interactive demo](https://hongxiang2023.github.io/folio/demo/) — an illustration, not the app |
 | Practice with fictional papers | [Follow the hands-on demo](docs/demo.md) |
@@ -53,7 +53,7 @@ This source ZIP is project code, not the Mac app installer. [Step-by-step instru
 | --- | --- | --- |
 | Import PDFs and RIS/Folio references | Original PDF and optional reading view | PMID, DOI, arXiv, and local citation markers |
 | Look up PMID, DOI, or arXiv metadata | Text, figures, legends, and source-page links | APA, Nature, Vancouver, IEEE, and more CSL styles |
-| Save pages with the Chrome/Edge connector | Notes, highlights, and figure zoom | Word upload, formatted export, and revised bibliography |
+| Save pages with the Chrome/Edge connector | Five highlight colors, passage notes, and figure zoom | Word upload, formatted export, and revised bibliography |
 | Collections, tags, stars, reading status | Optional paper chat using your AI provider | BibTeX copy and full library backups |
 
 No Folio account or subscription is needed for core features. Your references, PDFs, notes, and highlights stay on your computer. Public identifier lookup and optional AI use external services only for their respective tasks; AI requires your own connection and explicit per-paper enablement.

@@ -53,6 +53,8 @@ function validHighlights(value) {
  const ids=new Set();
  return value.every(h=>{
   if(!h||typeof h!=='object'||typeof h.id!=='string'||!h.id.trim()||h.id.length>128||ids.has(h.id)||typeof h.pdfId!=='string'||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(h.pdfId)||!Number.isSafeInteger(h.page)||h.page<1||h.page>500||!Number.isSafeInteger(h.paragraph)||h.paragraph<0||h.paragraph>=5000||!Number.isSafeInteger(h.start)||h.start<0||!Number.isSafeInteger(h.end)||h.end<=h.start||h.end>50000||typeof h.quote!=='string'||!h.quote.length||h.quote.length>10000||h.end-h.start!==h.quote.length||typeof h.createdAt!=='string'||h.createdAt.length>64||!Number.isFinite(Date.parse(h.createdAt)))return false;
+  if(h.color!==undefined&&!['yellow','green','blue','pink','purple'].includes(h.color))return false;
+  if(h.note!==undefined&&(typeof h.note!=='string'||h.note.length>10000))return false;
   ids.add(h.id);return true;
  });
 }

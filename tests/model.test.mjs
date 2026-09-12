@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import ts from 'typescript';
 const source=await readFile(new URL('../src/model.ts',import.meta.url),'utf8');
 const code=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText;
-const {empty,valid,bib,deduplicate,importReferences,normalizedDoi,citationMarker}=await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
+const {empty,valid,bib,deduplicate,importReferences,normalizedDoi,citationMarker,validHighlights}=await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
 test('RIS preserves authors, DOI and collection defaults',()=>{
  const [p]=importReferences('TY  - JOUR\nTI  - A study\nAU  - Doe, Jane\nAU  - Smith, Jo\nPY  - 2025/01\nDO  - https://doi.org/10.1234/test\nER  -','ris');
  assert.equal(p.title,'A study');assert.equal(p.authors,'Doe, Jane; Smith, Jo');assert.equal(p.year,'2025');assert.equal(p.doi,'10.1234/test');assert.ok(valid(p));
@@ -33,4 +33,12 @@ test('conference import keeps proceedings type and export uses booktitle',()=>{
  const [p]=importReferences('TY  - CPAPER\nTI  - A CS paper\nT2  - Example Conference\nDO  - 10.1234/example\nER  -','ris');
  assert.equal(p.cslType,'paper-conference');assert.match(bib(p),/^@inproceedings/);assert.match(bib(p),/booktitle = \{Example Conference\}/);
  assert.equal(citationMarker(p),'(doi:10.1234/example)');assert.equal(citationMarker({...p,doi:'',arxivId:'1706.03762'}),'(arxiv:1706.03762)');assert.equal(citationMarker({...p,doi:''}),`(folio:${p.id})`);
+});
+
+test('portable references preserve colored passage notes and validate their bounds',()=>{
+ const h={id:'annotation',pdfId:'11111111-1111-4111-8111-111111111111',page:1,paragraph:0,start:0,end:5,quote:'Study',createdAt:'2026-09-11T00:00:00Z',color:'purple',note:'Follow up on this claim.'};
+ const paper={...empty(),title:'Test',highlights:[h]};
+ assert.deepEqual(importReferences(JSON.stringify([paper]),'json')[0].highlights,[h]);
+ assert.equal(validHighlights([{...h,color:'magenta'}]),false);assert.equal(validHighlights([{...h,note:'x'.repeat(10001)}]),false);
+ assert.equal(validHighlights([{...h,color:undefined,note:undefined}]),true);
 });

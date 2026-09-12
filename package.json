@@ -1,6 +1,6 @@
 {
   "name": "folio-reference-manager",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A free, local-first reference manager for reading papers and writing manuscripts",
   "private": true,
   "type": "module",

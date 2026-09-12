@@ -81,7 +81,7 @@ Use the figure dropdown or arrows to browse detected figures. The legend appears
 
 Use the zoom slider or Ctrl/Cmd-scroll over the preview (25–600%). Drag to pan; keyboard arrow keys and scrollbars are alternatives. **Fit width** resets the view. Higher zoom can render a sharper crop locally from the original PDF, but cannot recover detail absent from its source image.
 
-Select text in the article pane, then choose **Highlight selection**. **Saved highlights** lets you revisit or remove a quote. If an updated extraction no longer locates the exact quote, it stays listed rather than being placed on unrelated text. Notes and highlights belong to the reference, not the cache. They are not annotations written into the original PDF.
+Select text in the article pane, choose yellow, green, blue, pink, or purple, then choose **Highlight selection**. To attach a note to a passage, select the passage and choose **Add note to selection**, write the note, and save it. Existing annotations can be opened from the marked text or the saved-annotations list to edit their note or color. Cancel leaves the saved annotation unchanged. For selections spanning several paragraphs, the note is attached to the first highlighted paragraph. Overlapping highlights use the later saved highlight’s color; the saved list retains each annotation. Older highlights remain yellow. If an updated extraction no longer locates the exact quote, it stays listed rather than being placed on unrelated text. Notes and highlights belong to the reference, not the cache. They are not annotations written into the original PDF.
 
 ### Cache and performance
 

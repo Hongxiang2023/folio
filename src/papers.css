@@ -51,3 +51,38 @@
 .paper-chat-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}.paper-chat-heading h3{margin:4px 0 12px}.paper-chat button{cursor:pointer;border:1px solid #ccdacc;background:#fff;border-radius:6px;padding:7px 10px;color:#34583c}.paper-chat button:disabled{opacity:.5;cursor:default}.paper-chat button.folio-primary{background:#45674c;color:#fff}.paper-chat-settings,.paper-chat-consent{padding:14px;background:#f3f7f1;border:1px solid #dce5da;border-radius:10px;margin:10px 0}.paper-chat-settings label,.paper-chat-question{display:grid;gap:5px;font-size:13px;margin:10px 0}.paper-chat-settings input,.paper-chat-settings select,.paper-chat textarea{box-sizing:border-box;width:100%;padding:9px;border:1px solid #ccd9c9;background:#fff;border-radius:6px;font:inherit}.paper-chat textarea{min-height:90px;resize:vertical}.paper-chat p{font-size:13px;line-height:1.6}.paper-chat-actions{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:10px 0;font-size:12px}.paper-chat-check{display:flex;gap:7px;align-items:start;font-size:12px;margin:9px 0}.paper-chat-check input{margin-top:2px}.paper-chat-messages{max-height:52vh;overflow:auto;overscroll-behavior:contain}.paper-chat-message{padding:12px;margin:12px 0;background:#f5f7f2;border-radius:9px;font-size:14px;line-height:1.7;overflow-wrap:anywhere}.paper-chat-message>strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#687d69;margin-bottom:7px}.paper-chat-message>div{white-space:pre-wrap}.paper-chat-message.is-user{background:#e5eee1}.paper-chat-message small{display:block;color:#687667;font-size:11px;margin-top:8px}.paper-chat .paper-chat-citation{display:inline;padding:0 3px;border:0;background:#e0edde;color:#375d3d;font:inherit;text-decoration:underline}
 
 .folio-citation-styles{margin-top:24px}.folio-citation-styles>.folio-field{margin-top:12px}.folio-citation-styles select{width:100%;min-width:0;text-overflow:ellipsis}.folio-citation-styles .folio-cite{margin-top:8px}.folio-style-manager{margin-top:14px;padding:18px;border:1px solid #cddbd0;border-radius:8px;background:#fff}.folio-style-manager h4{margin:0;font-size:16px}.folio-style-manager>p{margin:10px 0}.folio-style-manager form{display:flex;gap:10px;align-items:flex-end}.folio-style-manager form .folio-field{flex:1;min-width:0}.folio-style-manager form .folio-cite{width:auto;flex-shrink:0}.folio-style-results{list-style:none;margin:12px 0;padding:0;max-height:300px;overflow:auto;border-top:1px solid #e3e8e4}.folio-style-results li{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #e3e8e4;font-size:13px}.folio-style-results li>span{flex:1;overflow-wrap:anywhere}.folio-style-results .folio-cite{margin:0;width:auto;flex-shrink:0;padding:6px 10px}.folio-style-manager .folio-upload{margin-top:16px}.folio-citation-styles .folio-reference-warning{overflow-wrap:anywhere}@media(max-width:500px){.folio-style-manager{padding:14px}.folio-style-manager form{display:block}.folio-style-manager form .folio-cite{width:100%}}
+
+/* Passage annotations use named colors in addition to visual swatches. */
+.annotation-yellow{--annotation-fill:#fff0a6;--annotation-edge:#a88615}
+.annotation-green{--annotation-fill:#d4efd9;--annotation-edge:#458052}
+.annotation-blue{--annotation-fill:#d9eaff;--annotation-edge:#4a77a8}
+.annotation-pink{--annotation-fill:#f9dce8;--annotation-edge:#a25d7d}
+.annotation-purple{--annotation-fill:#e8dffd;--annotation-edge:#7c63a4}
+.reading-annotation-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.reading-controls .reading-annotation-tools span{margin-left:0;color:inherit}
+.reading-color-caption,.reading-annotation-color-label{font-size:13px;color:#53685a}
+.reading-color-options{display:flex;align-items:center;gap:5px}
+.folio .reading-color-options .reading-color-swatch{display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid var(--annotation-edge);border-radius:50%;background:var(--annotation-fill);color:#26372f;text-decoration:none;flex-shrink:0}
+.folio .reading-color-options .reading-color-swatch[aria-pressed=true]{outline:2px solid #334c3c;outline-offset:2px}
+.folio .reading-color-options .reading-color-swatch:focus-visible{outline:3px solid #174f82;outline-offset:3px}
+.folio .reading-controls .reading-highlight-button{background:var(--annotation-fill,#fff0a6);border-color:var(--annotation-edge,#a88615);color:#26372f}
+.folio .reading-controls .reading-add-note-button{border:1px solid #b8cdbd;border-radius:6px;padding:7px 10px;color:#285b3b;background:#f3f8f1;text-decoration:none}
+.reading-text mark{background:var(--annotation-fill,#fff0a6);color:inherit;cursor:pointer}
+.reading-text mark:focus-visible{outline:2px solid #285b3b;outline-offset:2px}
+.reading-annotation-editor{padding:16px;background:#f3f7f1;border:1px solid #b9cdbb;border-radius:9px;margin-bottom:24px;scroll-margin:16px}
+.folio-reader .reading-annotation-editor h3{font:22px Georgia,serif;margin:0 0 12px}
+.reading-annotation-editor blockquote,.reading-highlights blockquote{background:var(--annotation-fill,#fff0a6);border-left:3px solid var(--annotation-edge,#a88615)}
+.reading-annotation-editor blockquote{margin:0 0 14px;padding:10px 12px;max-height:140px;overflow:auto;font:14px/1.6 Georgia,serif;white-space:pre-wrap;overflow-wrap:anywhere}
+.reading-annotation-color-label{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0}
+.reading-passage-note-label{display:grid;gap:7px;font-size:13px;font-weight:600}
+.folio-reader .reading-annotation-editor textarea{width:100%;min-height:110px;height:130px;background:#fff;font:14px/1.6 system-ui,sans-serif;resize:vertical}
+.reading-annotation-editor small{display:block;font-size:11px;margin-top:6px}
+.reading-highlights li>.reading-annotation-meta{display:flex;align-items:center;justify-content:flex-start;gap:8px;font-size:11px;color:#5f7365;margin-bottom:8px}
+.reading-color-label{display:inline-block;padding:2px 8px;border-radius:10px;border:1px solid var(--annotation-edge);background:var(--annotation-fill);color:#26372f}
+.folio-reader .reading-saved-passage-note{white-space:pre-wrap;overflow-wrap:anywhere;color:#304839;background:#f1f5ef;border-radius:6px;padding:10px 12px;margin:8px 0;font-size:14px;line-height:1.6}
+.reading-annotation-actions,.reading-highlights li>.reading-annotation-actions{display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;gap:10px;margin-top:12px}
+.reading-annotation-actions button{font-size:12px;padding:5px 7px;border-radius:4px;text-decoration:underline;text-underline-offset:2px}
+.folio .reading-annotation-actions .folio-primary{font-size:13px;padding:8px 12px;text-decoration:none}
+.folio-reader .reading-annotation-hint,.folio-reader .reading-annotation-status{font-size:12px;color:#45654e;line-height:1.6}
+.reading-annotation-status:empty{display:none}
+@media(max-width:800px){.reading-annotation-tools{flex-basis:100%;gap:8px}.reading-color-options{gap:6px}.folio .reading-color-options .reading-color-swatch{width:32px;height:32px}.reading-annotation-editor{padding:14px}}

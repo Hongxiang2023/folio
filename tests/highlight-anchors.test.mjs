@@ -17,3 +17,10 @@ test('overlapping highlights render once and preserve all text and offsets',()=>
  assert.equal(parts.map(p=>p.text).join(''),'A useful finding.');
  assert.deepEqual(parts,[{text:'A ',marked:false},{text:'useful finding',marked:true},{text:'.',marked:false}]);
 });
+
+test('overlapping colors retain annotation identities and do not duplicate text',()=>{
+ const parts=highlightSegments('abcdefgh',[{id:'older',start:1,end:6,color:'yellow'},{id:'newer',start:3,end:7,color:'blue'}]);
+ assert.equal(parts.map(p=>p.text).join(''),'abcdefgh');
+ assert.deepEqual(parts.filter(p=>p.marked).map(p=>[p.text,p.color,p.highlightIds]),[['bc','yellow',['older']],['def','blue',['older','newer']],['g','blue',['newer']]]);
+ assert.equal(highlightSegments('abc',[{start:-1,end:2},{start:0,end:10}])[0].marked,false);
+});
