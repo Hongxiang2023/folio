@@ -1,4 +1,5 @@
 import CSL from 'citeproc';
+import {citationDoi,referenceUrl,isPubMedUrl} from './reference-links.mjs';
 import { resolveCitationMarkers } from './citation-identifiers.mjs';
 export { parseCitationMarkers, normalizeCitationIdentifier, paperCitationIdentifiers, resolveCitationMarkers } from './citation-identifiers.mjs';
 import { readFileSync } from 'node:fs';
@@ -36,7 +37,7 @@ function item(p, id) {
     id, type: ['article-journal', 'paper-conference', 'article', 'book', 'chapter', 'report', 'thesis', 'manuscript'].includes(p.cslType || p.type) ? (p.cslType || p.type) : 'article-journal', title: literal(p.title), author: authors(p),
     'container-title': literal(p.journal), 'container-title-short': literal(p.journalAbbreviation),
     volume: literal(p.volume), issue: literal(p.issue), page: literal(p.pages),
-    DOI: literal(p.doi), URL: literal(p.sourceUrl), PMID: literal(p.pmid),
+    DOI: literal(citationDoi(p)), URL: literal(referenceUrl(p)), PMID: literal(p.pmid),
     publisher: literal(p.publisher), 'publisher-place': literal(p.publisherPlace),
     'event-title': literal(p.eventTitle),
     ...(parts ? { issued: { 'date-parts': [parts] } } : {}),
@@ -71,6 +72,8 @@ export function generateCitations(text, papers, styleId = 'apa', options={}) {
     const p = records.get(id);
     if (!items.has(id)) {
       items.set(id, item(p, id));
+      if(!referenceUrl(p)&&isPubMedUrl(p.sourceUrl||''))warnings.add(`Citation ${id}: only a PubMed record link is available. It is kept in your library but omitted as an article URL; verify the reference metadata and add a DOI or article URL if available.`);
+      if(p.doi&&!citationDoi(p))warnings.add(`Citation ${id}: the DOI is invalid or belongs to a related publication rather than this arXiv preprint; review the cited version.`);
       const missing = ['title', 'authors', 'year', 'journal'].filter(k => !p[k] && !(k === 'authors' && p.cslAuthors?.length));
       if (missing.length) warnings.add(`Citation ${id} is missing ${missing.join(', ')}; review its reference metadata.`);
       if (!p.cslAuthors?.length && p.authors && !p.authors.includes(',')) warnings.add(`Citation ${id}: author names were inferred from text; verify family and given names.`);

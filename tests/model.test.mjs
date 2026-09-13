@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import ts from 'typescript';
-const source=await readFile(new URL('../src/model.ts',import.meta.url),'utf8');
+const source=(await readFile(new URL('../src/model.ts',import.meta.url),'utf8')).replace('../server/reference-links.mjs',new URL('../server/reference-links.mjs',import.meta.url).href);
 const code=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText;
 const {empty,valid,bib,deduplicate,importReferences,normalizedDoi,citationMarker,validHighlights}=await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
 test('RIS preserves authors, DOI and collection defaults',()=>{
@@ -41,4 +41,10 @@ test('portable references preserve colored passage notes and validate their boun
  assert.deepEqual(importReferences(JSON.stringify([paper]),'json')[0].highlights,[h]);
  assert.equal(validHighlights([{...h,color:'magenta'}]),false);assert.equal(validHighlights([{...h,note:'x'.repeat(10001)}]),false);
  assert.equal(validHighlights([{...h,color:undefined,note:undefined}]),true);
+});
+
+test('BibTeX prefers the paper DOI over a PubMed record and retains a locator fallback',()=>{
+ const p={...empty(),title:'Sample',doi:'https://doi.org/10.1234/sample',pmid:'12345678',sourceUrl:'https://pubmed.ncbi.nlm.nih.gov/12345678/'};
+ assert.match(bib(p),/doi = \{10\.1234\/sample\}/);assert.match(bib(p),/url = \{https:\/\/doi\.org\/10\.1234\/sample\}/);assert.doesNotMatch(bib(p),/pubmed/);
+ assert.match(bib({...p,doi:''}),/pubmed\.ncbi\.nlm\.nih\.gov/);
 });

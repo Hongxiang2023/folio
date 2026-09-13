@@ -19,3 +19,15 @@ The reference generator offers two separate choices: **Look up missing PMIDs** (
 Lookup-only metadata lives in the open generator's memory and is included in local preview and export requests. It is discarded when the generator closes, without changing the library, its revision, or backups. Repeated generation can reuse metadata while the generator stays open. Existing library records take precedence over temporary records with the same PMID. At most 100 missing PMIDs are looked up per generation. Failed lookups stay unresolved and block Word export; a failed optional save does not discard successfully retrieved reference metadata.
 
 Acceptance covers pasted text and uploaded Word manuscripts, previews, plain-text and Word exports, explicit saving, duplicate PMIDs, invalid/oversized metadata, and library persistence. Client/server implementation owns the workflow; QA independently covers API regressions. Privacy review: PubMed receives identifiers only; manuscript text and temporary citation metadata go only to Folio's authenticated local server. No new external service, durable citation cache, or change to CSL formatting is introduced.
+
+## Paper links and PubMed records
+
+A PubMed URL identifies an indexing record. It is useful for checking metadata, but it need not be the URL printed in a journal reference. Folio now supplies a normalized DOI and its `https://doi.org/...` link when available, followed by an existing article URL. It does not guess a publisher URL from a title. The selected CSL style still decides whether and how to print that information; a complete Nature-style journal reference may legitimately omit a URL.
+
+PubMed-only URLs remain available as record links in the library and as a last-resort BibTeX locator. They are not supplied as article URLs to the formatted bibliography. If no DOI or article link is known, Folio warns you to review the metadata; do not invent a DOI to remove the warning. Add a verified article URL in **Reference details → Edit → Article URL** when appropriate. PMC full-text links are not treated as PubMed indexing records.
+
+An arXiv preprint keeps its explicit arXiv version link; a related published-paper DOI is not used to relabel that preprint's bibliography entry. Verify the version you intend to cite, including authors, year, journal/proceedings, volume, pages or article number. A working link alone does not establish that every field is correct.
+
+Existing saved records and Word citation controls are preserved. Upload an intact revised Folio Word document and regenerate its references to apply the corrected link selection. This update does not rewrite previously downloaded documents automatically.
+
+Reference guidance: [Crossref DOI display recommendations](https://www.crossref.org/display-guidelines/) and [Nature formatting guide](https://www.nature.com/nature/for-authors/formatting-guide).

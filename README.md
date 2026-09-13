@@ -5,7 +5,7 @@
 <p align="center"><strong>Your papers. Your notes. Your next manuscript.</strong></p>
 <p align="center">A free, local-first reference manager for reading papers and writing manuscripts.</p>
 <p align="center">
-  <a href="https://github.com/Hongxiang2023/folio/releases/download/v0.1.2-preview.1/Folio-0.1.2-arm64.dmg"><strong>Download for Mac</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/Hongxiang2023/folio/releases/download/v0.1.3-preview.1/Folio-0.1.3-arm64.dmg"><strong>Download for Mac</strong></a> &nbsp;·&nbsp;
   <a href="https://hongxiang2023.github.io/folio/demo/">Interactive demo</a> &nbsp;·&nbsp;
   <a href="docs/user-guide.md">User guide</a> &nbsp;·&nbsp;
   <a href="https://hongxiang2023.github.io/folio/">Website</a>
@@ -32,7 +32,7 @@ No Folio account, subscription, or analytics. Your library is local by default; 
 
 ## Download & install
 
-**[Download Folio for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/folio/releases/download/v0.1.2-preview.1/Folio-0.1.2-arm64.dmg)**
+**[Download Folio for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/folio/releases/download/v0.1.3-preview.1/Folio-0.1.3-arm64.dmg)**
 
 macOS 13 or newer. No Node.js or Terminal needed.
 
