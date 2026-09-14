@@ -2,24 +2,23 @@
   <img src="assets/icon.png" alt="Refhaven logo" width="88" height="88">
 </p>
 <h1 align="center">Refhaven</h1>
-<p align="center">Formerly Folio · Same library, new name.</p>
 <p align="center"><strong>Your papers. Your notes. Your next manuscript.</strong></p>
 <p align="center">A free, local-first reference manager for reading papers and writing manuscripts.</p>
 <p align="center">
-  <a href="https://github.com/Hongxiang2023/folio/releases/download/v0.1.4-preview.1/Refhaven-0.1.4-arm64.dmg"><strong>Download for Mac</strong></a> &nbsp;·&nbsp;
-  <a href="https://hongxiang2023.github.io/folio/demo/">Interactive demo</a> &nbsp;·&nbsp;
+  <a href="https://github.com/Hongxiang2023/refhaven/releases/download/v0.1.4-preview.1/Refhaven-0.1.4-arm64.dmg"><strong>Download for Mac</strong></a> &nbsp;·&nbsp;
+  <a href="https://hongxiang2023.github.io/refhaven/demo/">Interactive demo</a> &nbsp;·&nbsp;
   <a href="docs/user-guide.md">User guide</a> &nbsp;·&nbsp;
-  <a href="https://hongxiang2023.github.io/folio/">Website</a>
+  <a href="https://hongxiang2023.github.io/refhaven/">Website</a>
 </p>
 
-[![Refhaven reading walkthrough: highlighted article text, a figure, five highlight colors, and a saved passage note. Click to open the interactive demo.](docs/assets/preview-reading.png)](https://hongxiang2023.github.io/folio/demo/#read)
+[![Refhaven reading walkthrough: highlighted article text, a figure, five highlight colors, and a saved passage note. Click to open the interactive demo.](docs/assets/preview-reading.png)](https://hongxiang2023.github.io/refhaven/demo/#read)
 
 <p align="center"><em>Illustrated preview with fictional data.</em> Click the image to try highlighting and adding a sample note.</p>
 <p align="center">
-  <a href="https://hongxiang2023.github.io/folio/demo/#organize">Explore the library</a> &nbsp;·&nbsp;
-  <a href="https://hongxiang2023.github.io/folio/demo/#read">Read & annotate</a> &nbsp;·&nbsp;
-  <a href="https://hongxiang2023.github.io/folio/demo/#revise">Cite & revise</a> &nbsp;·&nbsp;
-  <a href="https://hongxiang2023.github.io/folio/demo/#cloud-folder">Cloud-folder storage</a>
+  <a href="https://hongxiang2023.github.io/refhaven/demo/#organize">Explore the library</a> &nbsp;·&nbsp;
+  <a href="https://hongxiang2023.github.io/refhaven/demo/#read">Read & annotate</a> &nbsp;·&nbsp;
+  <a href="https://hongxiang2023.github.io/refhaven/demo/#revise">Cite & revise</a> &nbsp;·&nbsp;
+  <a href="https://hongxiang2023.github.io/refhaven/demo/#cloud-folder">Cloud-folder storage</a>
 </p>
 
 ## From saved paper to revised manuscript
@@ -33,7 +32,7 @@ No Refhaven account, subscription, or analytics. Your library is local by defaul
 
 ## Download & install
 
-**[Download Refhaven for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/folio/releases/download/v0.1.4-preview.1/Refhaven-0.1.4-arm64.dmg)**
+**[Download Refhaven for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/refhaven/releases/download/v0.1.4-preview.1/Refhaven-0.1.4-arm64.dmg)**
 
 macOS 13 or newer. No Node.js or Terminal needed.
 
@@ -41,7 +40,7 @@ macOS 13 or newer. No Node.js or Terminal needed.
 2. Drag **Refhaven** into **Applications**. Quit an older Refhaven before replacing it.
 3. Open **Refhaven** from Applications, then eject the disk image.
 
-**Upgrading from Folio?** Quit Folio first. Install Refhaven, verify your papers and notes, then remove only the old **Folio.app** from Applications. Keep your library folder in place. [Rename and upgrade details](docs/install.md#upgrading-from-folio)
+**Updating an existing installation?** Back up your library and quit the app before updating. [Installation and update guide](docs/install.md#existing-installations)
 
 **Early preview:** Refhaven is not yet Developer ID-signed or Apple-notarized. If macOS blocks first launch and you trust this download, follow the [first-launch instructions](docs/install.md#if-macos-blocks-the-first-launch). Keep normal macOS security protections enabled.
 
@@ -57,7 +56,7 @@ A CS paper (arxiv:1706.03762).
 
 Paste text or upload Word, choose a citation style, and select **Generate references**. Modern numeric PMIDs work directly; no prefix is needed. Missing identifiers can be looked up automatically. These examples illustrate syntax, not scientific claims.
 
-**Revising?** Edit the exported Word file, add new markers outside existing citation controls, and upload it again. Refhaven refreshes the citations and replaces its managed bibliography. [See the revision workflow](https://hongxiang2023.github.io/folio/demo/#revise)
+**Revising?** Edit the exported Word file, add new markers outside existing citation controls, and upload it again. Refhaven refreshes the citations and replaces its managed bibliography. [See the revision workflow](https://hongxiang2023.github.io/refhaven/demo/#revise)
 
 <details>
 <summary><strong>DOIs, mixed groups, short PMIDs, and papers without identifiers</strong></summary>
@@ -90,7 +89,7 @@ Refhaven is an independent early-preview project. PDF extraction can be imperfec
 <details>
 <summary><strong>For developers and contributors</strong></summary>
 
-Install [Node.js LTS](https://nodejs.org/en/download) (22.13 or newer). Clone this repository or [download the source ZIP](https://github.com/Hongxiang2023/folio/archive/refs/heads/main.zip), then run these commands in the folder containing `package.json`:
+Install [Node.js LTS](https://nodejs.org/en/download) (22.13 or newer). Clone this repository or [download the source ZIP](https://github.com/Hongxiang2023/refhaven/archive/refs/heads/main.zip), then run these commands in the folder containing `package.json`:
 
 ```sh
 npm ci

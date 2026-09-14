@@ -1,6 +1,6 @@
 # Source release checklist
 
-Publish this `folio/` folder as a new standalone repository. Do not push the parent workspace: it contains unrelated game source and assets.
+Publish this `refhaven/` folder as a new standalone repository. Do not push the parent workspace: it contains unrelated game source and assets.
 
 Included: original app source, connector source, tests, lockfile, documentation, MIT license. Excluded: node_modules, dist, release installers, private library, PDFs, tokens, environment files, parent Git history and all game assets.
 
