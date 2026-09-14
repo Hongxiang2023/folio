@@ -3,8 +3,13 @@ const path=require('node:path');
 // Honor the computer's existing HTTPS trust before making Node network requests.
 require('./system-trust.cjs')();
 const {pathToFileURL}=require('node:url');
+// Keep the original profile and Keychain identity across the display-name change.
 app.setName('Folio');
-process.title='Folio';
+const profileDir=path.join(app.getPath('appData'),'Folio');
+require('node:fs').mkdirSync(profileDir,{recursive:true});
+app.setPath('userData',profileDir);
+app.setAboutPanelOptions({applicationName:'Refhaven'});
+process.title='Refhaven';
 let server;
 const origin='http://127.0.0.1:47821';
 if(!app.requestSingleInstanceLock())app.quit();
@@ -12,7 +17,7 @@ else {
  app.on('second-instance',()=>{const win=BrowserWindow.getAllWindows()[0];if(win){if(win.isMinimized())win.restore();win.focus();}});
  app.whenReady().then(async()=>{
   if(process.platform==='darwin')app.dock?.setIcon(path.join(__dirname,'../assets/icon.png'));
-  if(process.platform==='darwin')Menu.setApplicationMenu(Menu.buildFromTemplate([{label:'Folio',submenu:[{role:'about'}, {type:'separator'}, {role:'hide'}, {role:'hideOthers'}, {role:'unhide'}, {type:'separator'}, {role:'quit'}]},{role:'editMenu'},{role:'viewMenu'},{role:'windowMenu'}]));
+  if(process.platform==='darwin')Menu.setApplicationMenu(Menu.buildFromTemplate([{label:'Refhaven',submenu:[{role:'about',label:'About Refhaven'}, {type:'separator'}, {role:'hide',label:'Hide Refhaven'}, {role:'hideOthers'}, {role:'unhide'}, {type:'separator'}, {role:'quit',label:'Quit Refhaven'}]},{role:'editMenu'},{role:'viewMenu'},{role:'windowMenu'}]));
   const {createFolioServer,defaultDataDir}=await import(pathToFileURL(path.join(__dirname,'../server/index.mjs')).href);
   const {resolveLibraryLocation,prepareLibraryMove,activateLibraryMove,finalizeLibraryMove}=await import(pathToFileURL(path.join(__dirname,'../server/library-location.mjs')).href);
   const localDataDir=defaultDataDir();
@@ -20,10 +25,10 @@ else {
   let storageReady=!(location.migration&&['activated','cleaning'].includes(location.migration.status));
   const libraryLocation={
    async choose(){
-    const result=await dialog.showOpenDialog({title:'Choose an empty Folio library folder',buttonLabel:'Use this folder',properties:['openDirectory','createDirectory']});
+    const result=await dialog.showOpenDialog({title:'Choose an empty Refhaven library folder',buttonLabel:'Use this folder',properties:['openDirectory','createDirectory']});
     if(result.canceled||!result.filePaths[0])return null;
     const target=result.filePaths[0];
-    const confirmation=await dialog.showMessageBox({type:'question',title:'Move your Folio library?',message:'Move references, PDFs, annotations, and citation styles to this folder?',detail:target+'\n\nFolio will verify the copy, restart, then remove the old library files. Credentials, AI conversations, and reading caches stay on this computer. For cloud storage, wait for upload to finish before using your provider’s online-only setting. Use this library on one computer at a time.',buttons:['Cancel','Move library'],defaultId:0,cancelId:0});
+    const confirmation=await dialog.showMessageBox({type:'question',title:'Move your Refhaven library?',message:'Move references, PDFs, annotations, and citation styles to this folder?',detail:target+'\n\nRefhaven will verify the copy, restart, then remove the old library files. Credentials, AI conversations, and reading caches stay on this computer. For cloud storage, wait for upload to finish before using your provider’s online-only setting. Use this library on one computer at a time.',buttons:['Cancel','Move library'],defaultId:0,cancelId:0});
     return confirmation.response===1?target:null;
    },
    async reveal(){const error=await shell.openPath(location.dataDir);if(error)throw Error(error);},
@@ -35,10 +40,10 @@ else {
   const allowClipboard=(contents,permission)=>{try{return permission==='clipboard-sanitized-write'&&new URL(contents?.getURL()||'').origin===origin;}catch{return false;}};
   session.defaultSession.setPermissionCheckHandler((contents,permission,requestingOrigin)=>{try{return allowClipboard(contents,permission)&&new URL(requestingOrigin).origin===origin;}catch{return false;}});
   session.defaultSession.setPermissionRequestHandler((contents,permission,callback)=>callback(allowClipboard(contents,permission)));
-  const win=new BrowserWindow({show:false,width:1380,height:920,minWidth:700,minHeight:550,title:'Folio',backgroundColor:'#f5f7f5',webPreferences:{contextIsolation:true,nodeIntegration:false,sandbox:true,webSecurity:true}});
+  const win=new BrowserWindow({show:false,width:1380,height:920,minWidth:700,minHeight:550,title:'Refhaven',backgroundColor:'#f5f7f5',webPreferences:{contextIsolation:true,nodeIntegration:false,sandbox:true,webSecurity:true}});
   win.webContents.setWindowOpenHandler(({url})=>{try{const parsed=new URL(url);if(parsed.origin===origin&&parsed.pathname.startsWith('/api/pdfs/'))return {action:'allow',overrideBrowserWindowOptions:{webPreferences:{contextIsolation:true,nodeIntegration:false,sandbox:true}}};if(['https:','http:'].includes(parsed.protocol))void shell.openExternal(parsed.href);}catch{}return {action:'deny'};});
   win.webContents.on('will-navigate',(event,url)=>{try{const parsed=new URL(url);if(parsed.origin===origin)return;event.preventDefault();if(['https:','http:'].includes(parsed.protocol))void shell.openExternal(parsed.href);}catch{event.preventDefault();}});
-  win.webContents.on('will-prevent-unload',()=>{dialog.showMessageBoxSync(win,{type:'info',title:'Changes are still saving',message:'Please wait for Folio to finish saving, then close the window.',buttons:['Keep Folio open']});});
+  win.webContents.on('will-prevent-unload',()=>{dialog.showMessageBoxSync(win,{type:'info',title:'Changes are still saving',message:'Please wait for Refhaven to finish saving, then close the window.',buttons:['Keep Refhaven open']});});
   win.webContents.on('will-attach-webview',event=>event.preventDefault());
   await win.loadURL(`${origin}/papers`);
   if(location.migration&&['activated','cleaning'].includes(location.migration.status)){
@@ -47,8 +52,8 @@ else {
   }
   if(!storageReady){storageReady=true;await win.loadURL(`${origin}/papers`);}
   win.show();
-  console.log('Folio desktop ready on 127.0.0.1:47821');
- }).catch(error=>{dialog.showErrorBox('Folio could not start',error.code==='EADDRINUSE'?'Another Folio library service is already running. Close it before opening the desktop app.':error.message);app.quit();});
+  console.log('Refhaven desktop ready on 127.0.0.1:47821');
+ }).catch(error=>{dialog.showErrorBox('Refhaven could not start',error.code==='EADDRINUSE'?'Another Refhaven library service is already running. Close it before opening the desktop app.':error.message);app.quit();});
  app.on('window-all-closed',()=>app.quit());
  app.on('will-quit',()=>server?.close());
 }

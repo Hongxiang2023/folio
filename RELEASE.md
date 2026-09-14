@@ -25,4 +25,4 @@ npm run build
 npx --no-install electron-builder --mac dmg --arm64 --publish never --config.directories.output=release/mac-preview --config.mac.identity=- --config.mac.notarize=false
 ```
 
-Verify the DMG, mount it read-only, copy its app to a test location, verify the app signature and packaged source, and smoke-test with an isolated library while other Folio instances are closed. Include Electron/Chromium notices through `extraResources`. Publish only the DMG and its SHA-256 checksum file as release assets; never upload the staging folder, debug logs, libraries, or keys. Test results describe the tested Mac, not all target machines.
+Verify the DMG, mount it read-only, copy its app to a test location, verify the app signature and packaged source, and smoke-test with an isolated library while other Refhaven instances are closed. Include Electron/Chromium notices through `extraResources`. Publish only the DMG and its SHA-256 checksum file as release assets; never upload the staging folder, debug logs, libraries, or keys. Test results describe the tested Mac, not all target machines.

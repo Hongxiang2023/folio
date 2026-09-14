@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Folio Connector</title><link rel="stylesheet" href="popup.css"></head>
-<body><header><strong>Folio</strong><span>Library connector</span></header>
-<p>Save this page to the Folio app running on this computer.</p>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Refhaven Connector</title><link rel="stylesheet" href="popup.css"></head>
+<body><header><strong>Refhaven</strong><span>Library connector</span></header>
+<p>Save this page to the Refhaven app running on this computer.</p>
 <section id="preview" hidden><h1 id="title"></h1><p id="authors"></p></section>
-<button id="save" disabled>Save reference to Folio</button>
+<button id="save" disabled>Save reference to Refhaven</button>
 <button id="pdf" hidden>Attach available PDF</button>
 <p><a id="open-pdf" hidden target="_blank" rel="noopener">Open PDF in browser (check access)</a></p>
 <p id="status" role="status" aria-live="polite">Reading page metadata…</p>
-<details id="settings"><summary>Pair with Folio</summary><p>In Folio, open Library &amp; connector using the settings button and click Copy connector pairing key. Paste that key into Connector token below, then click Save token. Keep Folio running.</p><label for="token">Connector token</label><input id="token" type="password" autocomplete="off" spellcheck="false"><button id="pair">Save token</button><small>Connects only to 127.0.0.1:47821. No account or cloud service.</small></details>
+<details id="settings"><summary>Pair with Refhaven</summary><p>In Refhaven, open Library &amp; connector using the settings button and click Copy connector pairing key. Paste that key into Connector token below, then click Save token. Keep Refhaven running.</p><label for="token">Connector token</label><input id="token" type="password" autocomplete="off" spellcheck="false"><button id="pair">Save token</button><small>Connects only to 127.0.0.1:47821. No account or cloud service.</small></details>
 <script type="module" src="popup.js"></script></body></html>

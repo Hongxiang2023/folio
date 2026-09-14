@@ -51,7 +51,7 @@ test('external metadata changes prevent overwriting another device and preserve 
  const f=await fixture(t);const original=await(await f.call('/api/library')).json();
  const external=JSON.stringify({...original,collections:['From another device'],revision:8},null,2);
  await writeFile(path.join(f.dataDir,'library.json'),external);
- const put=await f.call('/api/library','PUT',original);assert.equal(put.status,409);assert.match((await put.json()).error,/outside Folio|changed/i);
+ const put=await f.call('/api/library','PUT',original);assert.equal(put.status,409);assert.match((await put.json()).error,/outside Refhaven|changed/i);
  assert.equal((await f.call('/api/capture','POST',{title:'Conflicting paper'})).status,409);
  assert.equal(await readFile(path.join(f.dataDir,'library.json'),'utf8'),external);
  assert.equal((await(await f.call('/api/library')).json()).revision,original.revision);
@@ -110,7 +110,7 @@ test('stale cloud metadata cannot delete a PDF newly referenced by another devic
  const external=JSON.stringify({...snapshot,revision:snapshot.revision+1,papers:[paper],collections:['Inbox']},null,2);
  await writeFile(path.join(f.dataDir,'library.json'),external);
  const response=await f.call('/api/pdfs/'+pdf.pdfId,'DELETE');
- assert.equal(response.status,409);assert.match((await response.json()).error,/changed|outside Folio/i);
+ assert.equal(response.status,409);assert.match((await response.json()).error,/changed|outside Refhaven/i);
  assert.equal(await readFile(path.join(f.dataDir,'pdfs',pdf.pdfId+'.pdf'),'utf8'),bytes);
  assert.equal(await readFile(path.join(f.dataDir,'library.json'),'utf8'),external);
 });

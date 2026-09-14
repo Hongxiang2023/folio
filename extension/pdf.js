@@ -1,4 +1,4 @@
-// Runs in the active tab's isolated world. Never receives the Folio pairing token.
+// Runs in the active tab's isolated world. Never receives the Refhaven pairing token.
 export async function streamPdfFromTab(url, transferId) {
   try {
   if (new URL(url).origin !== location.origin) throw new Error('PDF is outside the current article site.');
@@ -14,7 +14,7 @@ export async function streamPdfFromTab(url, transferId) {
         const bytes = value.subarray(offset, offset + 32768);
         const data = btoa(String.fromCharCode(...bytes));
         const reply = await chrome.runtime.sendMessage({ type: 'folio-pdf-chunk', transferId, data });
-        if (!reply?.ok) throw new Error('Folio connector closed or download interrupted.');
+        if (!reply?.ok) throw new Error('Refhaven connector closed or download interrupted.');
       }
     }
   } finally { await reader.cancel().catch(() => {}); }

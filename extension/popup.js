@@ -11,25 +11,25 @@ function status(message) { $('status').textContent = message; }
 async function api(path, body, headers = {}) {
   let response;
   try { response = await fetch(endpoint + path, { method: 'POST', headers: { Authorization: `Bearer ${token}`, ...headers }, body }); }
-  catch { throw new Error('Cannot reach Folio. Start the local Folio app on this computer, then try again.'); }
+  catch { throw new Error('Cannot reach Refhaven. Start the local Refhaven app on this computer, then try again.'); }
   const result = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(response.status === 401 ? 'Token rejected. Copy the current connector token from Folio Settings.' : result.error || `Folio returned HTTP ${response.status}.`);
+  if (!response.ok) throw new Error(response.status === 401 ? 'Token rejected. Copy the current connector token from Refhaven Settings.' : result.error || `Refhaven returned HTTP ${response.status}.`);
   return result;
 }
 async function capture(extra = {}) { return api('/api/capture', JSON.stringify({ ...metadata, ...extra }), { 'Content-Type': 'application/json' }); }
 $('pair').addEventListener('click', async () => {
   token = $('token').value.trim();
   await chrome.storage.local.set({ token });
-  status(token ? 'Token stored. Click Save reference to connect and save this paper.' : 'Token cleared. Copy a token from Folio Settings.');
+  status(token ? 'Token stored. Click Save reference to connect and save this paper.' : 'Token cleared. Copy a token from Refhaven Settings.');
 });
 $('save').addEventListener('click', async () => {
-  if (!token) { $('settings').open = true; status('Pair with Folio first: paste its connector token below.'); return; }
+  if (!token) { $('settings').open = true; status('Pair with Refhaven first: paste its connector token below.'); return; }
   $('save').disabled = true;
   status('Saving reference…');
   try {
     const result = await capture();
     saved = true;
-    status(result.duplicate ? 'Already in your library. You can attach its PDF below if available.' : 'Reference saved to Folio.');
+    status(result.duplicate ? 'Already in your library. You can attach its PDF below if available.' : 'Reference saved to Refhaven.');
     $('pdf').hidden = !metadata.pdfUrl;
     $('save').textContent = 'Save reference again';
   } catch (error) { status(error.message); }
@@ -59,25 +59,25 @@ $('pdf').addEventListener('click', async () => {
     const signature = await blob.slice(0, 5).text();
     if (signature !== '%PDF-') throw new Error('The publisher returned a login or web page instead of a PDF.');
     const filename = `${metadata.title.replace(/[\\/:*?"<>|]/g, '-').slice(0, 140)}.pdf`;
-    status('Saving PDF to Folio…');
+    status('Saving PDF to Refhaven…');
     const upload = await api('/api/pdfs', blob, { 'Content-Type': 'application/pdf', 'X-Folio-Filename': encodeURIComponent(filename) });
     const pdfId = upload.pdfId || upload.id;
-    if (!pdfId) throw new Error('Folio did not return an attachment identifier.');
+    if (!pdfId) throw new Error('Refhaven did not return an attachment identifier.');
     let attached = false;
     try {
       const result = await capture({ pdfId, pdfName: upload.pdfName || filename });
       attached = result.paper?.pdfId === pdfId;
-      if (!attached) throw new Error('This reference already has a PDF; manage its attachment in Folio.');
+      if (!attached) throw new Error('This reference already has a PDF; manage its attachment in Refhaven.');
     } finally {
       if (!attached) {
         try {
           const cleanup = await fetch(`${endpoint}/api/pdfs/${encodeURIComponent(pdfId)}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
-          if (!cleanup.ok) cleanupWarning = ' An unattached upload may remain in Folio storage.';
-        } catch { cleanupWarning = ' An unattached upload may remain in Folio storage.'; }
+          if (!cleanup.ok) cleanupWarning = ' An unattached upload may remain in Refhaven storage.';
+        } catch { cleanupWarning = ' An unattached upload may remain in Refhaven storage.'; }
       }
     }
-    status('Reference and PDF saved. Open Folio to read it.');
-  } catch (error) { status(`Reference remains saved. PDF could not be attached: ${error.message} Download it in your browser and import it in Folio.${cleanupWarning}`); }
+    status('Reference and PDF saved. Open Refhaven to read it.');
+  } catch (error) { status(`Reference remains saved. PDF could not be attached: ${error.message} Download it in your browser and import it in Refhaven.${cleanupWarning}`); }
   finally { $('pdf').disabled = false; if (releasePermission) await chrome.permissions.remove({ origins: [origin] }).catch(() => {}); }
 });
 try {
@@ -92,8 +92,8 @@ try {
   if (metadata.pdfUrl) { $('open-pdf').href = metadata.pdfUrl; $('open-pdf').hidden = false; }
   if (!metadata?.title) throw new Error('Could not read this page. Reload the page and try again.');
   $('title').textContent = metadata.title;
-  $('authors').textContent = metadata.authors || 'No author metadata found. Edit the reference in Folio after saving.';
+  $('authors').textContent = metadata.authors || 'No author metadata found. Edit the reference in Refhaven after saving.';
   $('preview').hidden = false;
   $('save').disabled = false;
-  status(metadata.pdfUrl ? 'Paper metadata and a PDF link found. Save the reference first, then choose whether to attach the PDF.' : 'Ready to save. No PDF link found; you can attach a downloaded PDF in Folio.');
+  status(metadata.pdfUrl ? 'Paper metadata and a PDF link found. Save the reference first, then choose whether to attach the PDF.' : 'Ready to save. No PDF link found; you can attach a downloaded PDF in Refhaven.');
 } catch (error) { status(error.message); }

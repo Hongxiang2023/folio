@@ -1,17 +1,18 @@
 <p align="center">
-  <img src="assets/icon.png" alt="Folio logo" width="88" height="88">
+  <img src="assets/icon.png" alt="Refhaven logo" width="88" height="88">
 </p>
-<h1 align="center">Folio</h1>
+<h1 align="center">Refhaven</h1>
+<p align="center">Formerly Folio · Same library, new name.</p>
 <p align="center"><strong>Your papers. Your notes. Your next manuscript.</strong></p>
 <p align="center">A free, local-first reference manager for reading papers and writing manuscripts.</p>
 <p align="center">
-  <a href="https://github.com/Hongxiang2023/folio/releases/download/v0.1.3-preview.1/Folio-0.1.3-arm64.dmg"><strong>Download for Mac</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/Hongxiang2023/folio/releases/download/v0.1.4-preview.1/Refhaven-0.1.4-arm64.dmg"><strong>Download for Mac</strong></a> &nbsp;·&nbsp;
   <a href="https://hongxiang2023.github.io/folio/demo/">Interactive demo</a> &nbsp;·&nbsp;
   <a href="docs/user-guide.md">User guide</a> &nbsp;·&nbsp;
   <a href="https://hongxiang2023.github.io/folio/">Website</a>
 </p>
 
-[![Folio reading walkthrough: highlighted article text, a figure, five highlight colors, and a saved passage note. Click to open the interactive demo.](docs/assets/preview-reading.png)](https://hongxiang2023.github.io/folio/demo/#read)
+[![Refhaven reading walkthrough: highlighted article text, a figure, five highlight colors, and a saved passage note. Click to open the interactive demo.](docs/assets/preview-reading.png)](https://hongxiang2023.github.io/folio/demo/#read)
 
 <p align="center"><em>Illustrated preview with fictional data.</em> Click the image to try highlighting and adding a sample note.</p>
 <p align="center">
@@ -25,22 +26,24 @@
 
 - **Collect & organize.** Import PDFs and references, look up PMID/DOI/arXiv metadata, or capture a paper from Chrome or Edge. Use collections, tags, stars, and reading status.
 - **Read & annotate.** Keep article text and figures together. Use five highlight colors and passage notes, with the original PDF a click away. Reading caches are removable.
-- **Cite & revise.** Generate references from identifiers, export Word, then upload your edited document to refresh citations and the bibliography. Preserve Folio’s citation controls between revisions.
+- **Cite & revise.** Generate references from identifiers, export Word, then upload your edited document to refresh citations and the bibliography. Preserve Refhaven’s citation controls between revisions.
 - **Choose your storage.** Keep your library local or move it to a folder managed by OneDrive, Google Drive, or Box. After upload, use your provider’s online-only controls for PDFs.
 
-No Folio account, subscription, or analytics. Your library is local by default; cloud-folder storage is optional. Identifier lookup and optional AI use external services for their respective tasks. AI uses your own connection and requires per-paper enablement. [Privacy & security](SECURITY.md)
+No Refhaven account, subscription, or analytics. Your library is local by default; cloud-folder storage is optional. Identifier lookup and optional AI use external services for their respective tasks. AI uses your own connection and requires per-paper enablement. [Privacy & security](SECURITY.md)
 
 ## Download & install
 
-**[Download Folio for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/folio/releases/download/v0.1.3-preview.1/Folio-0.1.3-arm64.dmg)**
+**[Download Refhaven for Mac · Apple silicon (.dmg)](https://github.com/Hongxiang2023/folio/releases/download/v0.1.4-preview.1/Refhaven-0.1.4-arm64.dmg)**
 
 macOS 13 or newer. No Node.js or Terminal needed.
 
 1. Open the downloaded `.dmg`.
-2. Drag **Folio** into **Applications**. Quit an older Folio before replacing it.
-3. Open **Folio** from Applications, then eject the disk image.
+2. Drag **Refhaven** into **Applications**. Quit an older Refhaven before replacing it.
+3. Open **Refhaven** from Applications, then eject the disk image.
 
-**Early preview:** Folio is not yet Developer ID-signed or Apple-notarized. If macOS blocks first launch and you trust this download, follow the [first-launch instructions](docs/install.md#if-macos-blocks-the-first-launch). Keep normal macOS security protections enabled.
+**Upgrading from Folio?** Quit Folio first. Install Refhaven, verify your papers and notes, then remove only the old **Folio.app** from Applications. Keep your library folder in place. [Rename and upgrade details](docs/install.md#upgrading-from-folio)
+
+**Early preview:** Refhaven is not yet Developer ID-signed or Apple-notarized. If macOS blocks first launch and you trust this download, follow the [first-launch instructions](docs/install.md#if-macos-blocks-the-first-launch). Keep normal macOS security protections enabled.
 
 **Intel Mac, Windows, or Linux:** [Run from source](docs/install.md#source-installation). Installers for these platforms are not provided yet. [Check your Mac & installation help](docs/install.md#macos)
 
@@ -54,7 +57,7 @@ A CS paper (arxiv:1706.03762).
 
 Paste text or upload Word, choose a citation style, and select **Generate references**. Modern numeric PMIDs work directly; no prefix is needed. Missing identifiers can be looked up automatically. These examples illustrate syntax, not scientific claims.
 
-**Revising?** Edit the exported Word file, add new markers outside existing citation controls, and upload it again. Folio refreshes the citations and replaces its managed bibliography. [See the revision workflow](https://hongxiang2023.github.io/folio/demo/#revise)
+**Revising?** Edit the exported Word file, add new markers outside existing citation controls, and upload it again. Refhaven refreshes the citations and replaces its managed bibliography. [See the revision workflow](https://hongxiang2023.github.io/folio/demo/#revise)
 
 <details>
 <summary><strong>DOIs, mixed groups, short PMIDs, and papers without identifiers</strong></summary>
@@ -67,7 +70,7 @@ A short PMID (PMID: 12345).
 
 For a saved paper without a public identifier, use **Copy citation marker** to obtain its `(folio:...)` marker. Ordinary years and already formatted citation numbers are left alone.
 
-To change a citation’s sources during revision, replace its entire citation control with a new marker. Correct reference metadata in Folio, then regenerate. Plain formatted numbers do not retain reference identities. [Complete citation guide](docs/user-guide.md#generate-and-revise-manuscript-references)
+To change a citation’s sources during revision, replace its entire citation control with a new marker. Correct reference metadata in Refhaven, then regenerate. Plain formatted numbers do not retain reference identities. [Complete citation guide](docs/user-guide.md#generate-and-revise-manuscript-references)
 
 </details>
 
@@ -82,7 +85,7 @@ To change a citation’s sources during revision, replace its entire citation co
 | Back up or restore my library | [Backup & restore](docs/user-guide.md#back-up-restore-and-move-your-library) |
 | Use my own AI connection | [Optional paper chat](docs/user-guide.md#ask-a-paper-with-optional-ai) |
 
-Folio is an independent early-preview project. PDF extraction can be imperfect; verify important passages against the original. Review metadata and generated references before submission. Cloud folders use your provider’s desktop app and do not support simultaneous shared-library editing. There is no OCR or live Word/Google Docs add-in.
+Refhaven is an independent early-preview project. PDF extraction can be imperfect; verify important passages against the original. Review metadata and generated references before submission. Cloud folders use your provider’s desktop app and do not support simultaneous shared-library editing. There is no OCR or live Word/Google Docs add-in.
 
 <details>
 <summary><strong>For developers and contributors</strong></summary>
@@ -105,7 +108,7 @@ For browser mode, run `npm run build` and `npm start`, then open `http://127.0.0
 
 Automated source checks cover macOS, Windows, and Linux. The downloadable preview targets Apple silicon Macs only.
 
-Report problems with your OS, Folio version, reproduction steps, and error message. Prefer fictional examples over private papers or manuscripts. Never share your library folder or credentials.
+Report problems with your OS, Refhaven version, reproduction steps, and error message. Prefer fictional examples over private papers or manuscripts. Never share your library folder or credentials.
 
 [Release checklist](RELEASE.md) · [Security](SECURITY.md) · [Citation-style notices](CSL-NOTICES.md)
 

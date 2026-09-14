@@ -1,6 +1,6 @@
 {
-  "name": "folio-reference-manager",
-  "version": "0.1.3",
+  "name": "refhaven-reference-manager",
+  "version": "0.1.4",
   "description": "A free, local-first reference manager for reading papers and writing manuscripts",
   "private": true,
   "type": "module",
@@ -38,7 +38,7 @@
   },
   "build": {
     "appId": "org.folio.reference-manager",
-    "productName": "Folio",
+    "productName": "Refhaven",
     "directories": {
       "output": "release"
     },
@@ -58,7 +58,10 @@
         "zip"
       ],
       "category": "public.app-category.productivity",
-      "icon": "assets/icon.icns"
+      "icon": "assets/icon.icns",
+      "extendInfo": {
+        "CFBundleDisplayName": "Refhaven"
+      }
     },
     "win": {
       "target": [

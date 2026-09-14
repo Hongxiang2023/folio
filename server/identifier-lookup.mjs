@@ -15,7 +15,7 @@ function parseIdentifier(input) {
   return {type,value};
 }
 async function request(url, provider, fetchImpl) {
-  const response = await fetchImpl(url, {signal:AbortSignal.timeout(12000), redirect:'error', headers:{Accept:provider === 'Crossref' ? 'application/json' : 'application/atom+xml', 'User-Agent':'Folio/1.0 (reference metadata lookup)'}});
+  const response = await fetchImpl(url, {signal:AbortSignal.timeout(12000), redirect:'error', headers:{Accept:provider === 'Crossref' ? 'application/json' : 'application/atom+xml', 'User-Agent':'Refhaven/1.0 (reference metadata lookup)'}});
   if (response.redirected || (response.url && new URL(response.url).origin !== url.origin)) throw new Error(`${provider} returned an unexpected redirect.`);
   if (!response.ok) throw new Error(`${provider} metadata is unavailable (HTTP ${response.status}). Try again later.`);
   if (Number(response.headers?.get('content-length')) > MAX_RESPONSE) throw new Error(`${provider} response is too large.`);

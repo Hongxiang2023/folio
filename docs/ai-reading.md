@@ -1,6 +1,6 @@
 # Paper chat: implementation and review
 
-Goal: let readers summarize and discuss a saved paper without leaving the reading window. Scope: per-PDF text-grounded chat, initial summary on enabling, selectable excerpt, optional cached page/equation images, clickable page citations, local conversation persistence, ChatGPT account sign-in on macOS and OpenAI/Claude API keys. No automatic bulk-library upload, web search, editing files, or remote Folio account.
+Goal: let readers summarize and discuss a saved paper without leaving the reading window. Scope: per-PDF text-grounded chat, initial summary on enabling, selectable excerpt, optional cached page/equation images, clickable page citations, local conversation persistence, ChatGPT account sign-in on macOS and OpenAI/Claude API keys. No automatic bulk-library upload, web search, editing files, or remote Refhaven account.
 
 ## User flow
 
@@ -32,4 +32,4 @@ Local visual QA against the 49-page spatial-ecotypes example found 11 display-eq
 
 Tests cover consent denial before transmission, one-time summary generation, persistence across restart, provider-switch consent, API-key secrecy, safe image inputs, context bounds, parallel-request rejection, cancellation, local route authorization, connector exclusion, credential-free backups, provider transport shape, and macOS filesystem/symlink isolation. Production TypeScript/Vite build is required. Authentication and live model responses require the user's provider account and are reported separately from mocked integration tests.
 
-This is a local implementation, not an external release. Folio stays free; optional provider service charges are borne by the user.
+This is a local implementation, not an external release. Refhaven stays free; optional provider service charges are borne by the user.

@@ -1,8 +1,8 @@
 # Citation Style Language assets
 
-Folio uses styles and locale data from the **Citation Style Language project**: https://citationstyles.org/. Its style manager searches Zotero's catalog and downloads compatible styles from the official CSL repository's `v1.0.2` branch. Downloaded XML retains the original author, contributor, and rights notices. Files are stored locally with source links and installation dates; dependent styles retain both their own XML and their parent styles. Imported custom files retain their embedded notices and remain subject to their authors' licensing terms.
+Refhaven uses styles and locale data from the **Citation Style Language project**: https://citationstyles.org/. Its style manager searches Zotero's catalog and downloads compatible styles from the official CSL repository's `v1.0.2` branch. Downloaded XML retains the original author, contributor, and rights notices. Files are stored locally with source links and installation dates; dependent styles retain both their own XML and their parent styles. Imported custom files retain their embedded notices and remain subject to their authors' licensing terms.
 
-The files in `server/styles/` are third-party works, distributed unchanged under the **Creative Commons Attribution-ShareAlike 3.0 Unported license (CC BY-SA 3.0)**. They are not covered by Folio's MIT license. All embedded author, contributor, translator, rights, and source notices have been retained. Attribution applies to the original authors and all contributors credited inside each file and in the linked upstream repositories.
+The files in `server/styles/` are third-party works, distributed unchanged under the **Creative Commons Attribution-ShareAlike 3.0 Unported license (CC BY-SA 3.0)**. They are not covered by Refhaven's MIT license. All embedded author, contributor, translator, rights, and source notices have been retained. Attribution applies to the original authors and all contributors credited inside each file and in the linked upstream repositories.
 
 License: https://creativecommons.org/licenses/by-sa/3.0/
 Full legal terms: https://creativecommons.org/licenses/by-sa/3.0/legalcode

@@ -29,9 +29,9 @@ export default function LibraryStorage({onBusyChange}:Props){
    const result=await api<LocationChange>('/api/library-location/choose',{method:'POST'});
    if(!alive.current)return;
    if(result.cancelled){setMessage('Folder change cancelled. Your library location is unchanged.');return;}
-   if(result.restarting){restarting=true;setPhase('restarting');setMessage('Library folder changed. Folio is restarting…');return;}
+   if(result.restarting){restarting=true;setPhase('restarting');setMessage('Library folder changed. Refhaven is restarting…');return;}
    await refresh();setMessage('Library location refreshed.');
-  }catch(e){if(alive.current)setError(e instanceof Error?e.message:'Could not change the library folder. Reopen these settings if Folio has restarted.');}
+  }catch(e){if(alive.current)setError(e instanceof Error?e.message:'Could not change the library folder. Reopen these settings if Refhaven has restarted.');}
   finally{if(!restarting){pending.current=false;if(alive.current)setPhase('idle');}}
  }
  async function revealFolder(){
@@ -46,18 +46,18 @@ export default function LibraryStorage({onBusyChange}:Props){
   <p>Keep your library locally, or choose a folder managed by your cloud-storage desktop app.</p>
   {loading?<p role="status">Checking library location…</p>:location&&<><span className="folio-location-label">Current library folder</span><code className="folio-location-path">{location.dataDir}</code></>}
   {location?.supported?<>
-   <div className="folio-location-actions"><button type="button" className="folio-primary" disabled={busy||loading} onClick={()=>void chooseFolder()}>{phase==='choosing'?'Changing folder…':phase==='restarting'?'Restarting Folio…':'Choose library folder'}</button><button type="button" className="folio-location-open" disabled={busy||loading} onClick={()=>void revealFolder()}>{phase==='revealing'?'Opening…':'Open folder'}</button></div>
-   <p className="folio-location-hint">Choose an empty, dedicated folder in the system dialog and review the confirmation. Folio restarts after a successful move. Keep it open until the move finishes.</p>
-  </>:!loading&&location&&<p className="folio-location-unavailable">Changing the library folder is available in the Folio desktop app. This browser session uses the folder configured by its local Folio service.</p>}
+   <div className="folio-location-actions"><button type="button" className="folio-primary" disabled={busy||loading} onClick={()=>void chooseFolder()}>{phase==='choosing'?'Changing folder…':phase==='restarting'?'Restarting Refhaven…':'Choose library folder'}</button><button type="button" className="folio-location-open" disabled={busy||loading} onClick={()=>void revealFolder()}>{phase==='revealing'?'Opening…':'Open folder'}</button></div>
+   <p className="folio-location-hint">Choose an empty, dedicated folder in the system dialog and review the confirmation. Refhaven restarts after a successful move. Keep it open until the move finishes.</p>
+  </>:!loading&&location&&<p className="folio-location-unavailable">Changing the library folder is available in the Refhaven desktop app. This browser session uses the folder configured by its local Refhaven service.</p>}
   <p className="folio-location-hint">References, PDFs, highlights, notes, and citation styles move together. Credentials, AI conversations, and reading caches stay on this computer. Remove unneeded reading caches in the reading view to reclaim their space.</p>
   <details className="folio-cloud-folder-help"><summary>Use a cloud folder and reduce local disk use</summary>
    <ol>
-    <li>Install and sign in to your cloud provider’s desktop app, then create and choose an empty Folio folder inside its managed location.</li>
+    <li>Install and sign in to your cloud provider’s desktop app, then create and choose an empty Refhaven folder inside its managed location.</li>
     <li>Wait for your provider to finish uploading the library. Moving it into a cloud folder alone does not free disk space.</li>
     <li>Use the provider’s <strong>Free up space</strong> or <strong>online-only</strong> option for uploaded files in <code>pdfs/</code>. Names and availability vary by provider. Do not delete the PDFs to free space.</li>
     <li>Keep <code>library.json</code> available offline. Opening an online-only PDF downloads it again and may require internet access.</li>
    </ol>
-   <p><strong>Use one computer at a time.</strong> Quit Folio and wait for the provider to finish syncing before opening the library on another computer. Folio does not merge simultaneous edits or guarantee that cloud syncing is complete.</p>
+   <p><strong>Use one computer at a time.</strong> Quit Refhaven and wait for the provider to finish syncing before opening the library on another computer. Refhaven does not merge simultaneous edits or guarantee that cloud syncing is complete.</p>
    <p>Keep a separate full backup before moving your library. Cloud sync can propagate changes and deletions; it does not replace a backup.</p>
   </details>
   {phase==='choosing'&&<p className="folio-location-status" role="status">Follow the system folder chooser and confirmation. Moving a large library can take time.</p>}

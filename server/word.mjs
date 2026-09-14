@@ -67,12 +67,12 @@ async function findMetadata(zip){
   const raw=await part.async('string');
   // Namespace test avoids parsing unrelated application data and preserves it verbatim.
   if(!raw.includes(FOLIO))continue;
-  if(raw.length>2*1024*1024)throw fail('Folio citation metadata exceeds the supported size.');
+  if(raw.length>2*1024*1024)throw fail('Refhaven citation metadata exceeds the supported size.');
   const root=xml(raw).documentElement;
   if(root.namespaceURI===FOLIO&&root.localName==='references')candidates.push({path:part.name,root});
  }
- if(candidates.length>1)throw fail('Multiple Folio citation metadata parts were found. Restore one intact document copy.');
- if(candidates.length&&!linked.has(candidates[0].path))throw fail('Folio citation metadata relationship is missing. Restore an intact document copy.');
+ if(candidates.length>1)throw fail('Multiple Refhaven citation metadata parts were found. Restore one intact document copy.');
+ if(candidates.length&&!linked.has(candidates[0].path))throw fail('Refhaven citation metadata relationship is missing. Restore an intact document copy.');
  return candidates[0]||null;
 }
 async function removeMetadata(zip,path){
@@ -99,27 +99,27 @@ function bibliographyMatches(doc,content,meta){
 }
 async function restoreManagedReferences(zip,doc){
  const managed=elements(doc,'sdt').map(node=>({node,tag:elements(node,'sdtPr')[0]?.getElementsByTagNameNS(W,'tag')[0]?.getAttributeNS(W,'val')})).filter(c=>c.tag?.startsWith('folio:'));
- const found=await findMetadata(zip);if(!found){if(managed.length)throw fail('Folio citation metadata is missing. Restore a copy with its citation controls intact.');return null;}
- let meta;try{const {root}=found;if(root.getAttribute('checksum')!==hash(root.textContent))throw Error();meta=JSON.parse(root.textContent);}catch{throw fail('Folio citation metadata is invalid. Restore an intact document copy.');}
- if(meta.version!==1||!meta.citations||typeof meta.citations!=='object'||Array.isArray(meta.citations)||!Array.isArray(meta.papers)||meta.papers.length>5000||Object.keys(meta.citations).length>10000)throw fail('Unsupported Folio citation metadata. Restore an intact document copy.');
+ const found=await findMetadata(zip);if(!found){if(managed.length)throw fail('Refhaven citation metadata is missing. Restore a copy with its citation controls intact.');return null;}
+ let meta;try{const {root}=found;if(root.getAttribute('checksum')!==hash(root.textContent))throw Error();meta=JSON.parse(root.textContent);}catch{throw fail('Refhaven citation metadata is invalid. Restore an intact document copy.');}
+ if(meta.version!==1||!meta.citations||typeof meta.citations!=='object'||Array.isArray(meta.citations)||!Array.isArray(meta.papers)||meta.papers.length>5000||Object.keys(meta.citations).length>10000)throw fail('Unsupported Refhaven citation metadata. Restore an intact document copy.');
  if(meta.papers.some(p=>!validPaper(p)))throw fail('Invalid embedded reference metadata.');
  const bibliographies=managed.filter(c=>c.tag==='folio:bibliography');
- if(bibliographies.length!==1)throw fail('The managed reference list is missing or duplicated. Restore one intact Folio reference list before updating.');
+ if(bibliographies.length!==1)throw fail('The managed reference list is missing or duplicated. Restore one intact Refhaven reference list before updating.');
  meta.activeSources=[];meta.metadataPath=found.path;
  for(const c of managed){
-  if(ancestor(c.node,'sdt')||ancestor(c.node,'txbxContent'))throw fail('Folio citation controls were moved into an unsupported document region.');
+  if(ancestor(c.node,'sdt')||ancestor(c.node,'txbxContent'))throw fail('Refhaven citation controls were moved into an unsupported document region.');
   const content=Array.from(c.node.childNodes).find(n=>n.namespaceURI===W&&n.localName==='sdtContent');
-  if(!content)throw fail('A Folio citation control is incomplete.');
+  if(!content)throw fail('A Refhaven citation control is incomplete.');
   if(c.tag==='folio:bibliography'){
-   if(!bibliographyMatches(doc,content,meta))throw fail('The generated reference list was edited manually. Restore it, then update the source metadata in Folio.');
+   if(!bibliographyMatches(doc,content,meta))throw fail('The generated reference list was edited manually. Restore it, then update the source metadata in Refhaven.');
    c.node.parentNode.removeChild(c.node);continue;
   }
   const id=c.tag.slice('folio:citation:'.length),record=Object.hasOwn(meta.citations,id)?meta.citations[id]:null;
   if(!c.tag.startsWith('folio:citation:')||!record||typeof record.source!=='string'||record.source.length>20000||typeof record.display!=='string'||visible(content)!==record.display)throw fail('A generated citation was edited or its identifiers are missing. Restore that citation control; insert new identifier markers outside existing citations.');
-  if(!ancestor(c.node,'p')||Array.from(content.childNodes).some(n=>n.nodeType===1&&(n.namespaceURI!==W||!['r','proofErr'].includes(n.localName)))||elements(content,'r').some(r=>Array.from(r.childNodes).some(n=>n.nodeType===1&&(n.namespaceURI!==W||!['rPr','t'].includes(n.localName)))))throw fail('A Folio citation control has unsupported content.');
-  if(parseCitationMarkers(record.source).length!==1||parseCitationMarkers(record.source)[0].original!==record.source||record.baseProps&&(typeof record.baseProps!=='string'||record.baseProps.length>20000))throw fail('Invalid Folio citation source metadata.');
+  if(!ancestor(c.node,'p')||Array.from(content.childNodes).some(n=>n.nodeType===1&&(n.namespaceURI!==W||!['r','proofErr'].includes(n.localName)))||elements(content,'r').some(r=>Array.from(r.childNodes).some(n=>n.nodeType===1&&(n.namespaceURI!==W||!['rPr','t'].includes(n.localName)))))throw fail('A Refhaven citation control has unsupported content.');
+  if(parseCitationMarkers(record.source).length!==1||parseCitationMarkers(record.source)[0].original!==record.source||record.baseProps&&(typeof record.baseProps!=='string'||record.baseProps.length>20000))throw fail('Invalid Refhaven citation source metadata.');
   const props=record.baseProps?xml(record.baseProps).documentElement:null;
-  if(props&&(props.namespaceURI!==W||props.localName!=='rPr'))throw fail('Invalid Folio citation formatting metadata.');
+  if(props&&(props.namespaceURI!==W||props.localName!=='rPr'))throw fail('Invalid Refhaven citation formatting metadata.');
   meta.activeSources.push(record.source);c.node.parentNode.replaceChild(textRun(doc,record.source,{},props),c.node);
  }
  return meta;

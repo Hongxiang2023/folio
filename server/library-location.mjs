@@ -16,7 +16,7 @@ async function plainPath(input,directory=true){
  const info=await lstat(resolved);if(directory?!info.isDirectory():!info.isFile())throw fail('The library path has an unsupported file type.');return realpath(resolved);
 }
 async function digest(file){const hash=createHash('sha256');for await(const chunk of createReadStream(file))hash.update(chunk);return hash.digest('hex');}
-async function library(file){await plainPath(file,false);let value;try{value=JSON.parse(await readFile(file,'utf8'));}catch{throw fail('The selected library metadata could not be opened.');}if(!value||!Array.isArray(value.papers)||!Number.isSafeInteger(value.revision)||value.revision<0||value.collections!==undefined&&!Array.isArray(value.collections))throw fail('The selected folder does not contain valid Folio library metadata.');return value;}
+async function library(file){await plainPath(file,false);let value;try{value=JSON.parse(await readFile(file,'utf8'));}catch{throw fail('The selected library metadata could not be opened.');}if(!value||!Array.isArray(value.papers)||!Number.isSafeInteger(value.revision)||value.revision<0||value.collections!==undefined&&!Array.isArray(value.collections))throw fail('The selected folder does not contain valid Refhaven library metadata.');return value;}
 const brief=m=>({id:m.id,sourceDir:m.sourceDir,targetDir:m.targetDir,status:m.status,fileCount:m.files.length,bytes:m.files.reduce((n,f)=>n+f.size,0)});
 function checked(m){if(!m||m.version!==1||typeof m.id!=='string'||!/^[a-f0-9-]{36}$/.test(m.id)||!['prepared','activated','cleaning'].includes(m.status)||!path.isAbsolute(m.sourceDir||'')||!path.isAbsolute(m.targetDir||'')||contains(m.sourceDir,m.targetDir)||contains(m.targetDir,m.sourceDir)||!Array.isArray(m.files)||new Set(m.files.map(f=>f?.name)).size!==m.files.length||!m.files.some(f=>f?.name==='library.json')||m.files.some(f=>!f||!/^library\.json$|^pdfs\/[a-f0-9-]{36}\.pdf$|^citation-styles\/[a-f0-9]{64}\.json$/.test(f.name)||!Number.isSafeInteger(f.size)||f.size<0||!/^[a-f0-9]{64}$/.test(f.hash)||typeof f.sourceExists!=='boolean'))throw fail('Library migration recovery metadata is invalid.');return m;}
 async function journal(configDir,id){const m=checked(await json(journalFile(configDir)));if(id&&m.id!==id)throw fail('This library move is no longer current.');return m;}
@@ -24,7 +24,7 @@ async function verify(m,side,allowMissing=false){await plainPath(m[side+'Dir']);
 /** Local config/journal stay in configDir. No credential, chat or cache files move. */
 export async function resolveLibraryLocation({configDir,defaultDataDir}){
  const config=await json(configFile(configDir)),raw=await json(journalFile(configDir));let migration=raw?checked(raw):null;
- if(config){if(config.version!==1||typeof config.dataDir!=='string'||!path.isAbsolute(config.dataDir))throw fail('Library location settings are invalid.');try{await plainPath(config.dataDir);await library(path.join(config.dataDir,'library.json'));}catch(e){throw fail('The selected library folder is unavailable or invalid. Restore its availability before opening Folio. '+e.message);}
+ if(config){if(config.version!==1||typeof config.dataDir!=='string'||!path.isAbsolute(config.dataDir))throw fail('Library location settings are invalid.');try{await plainPath(config.dataDir);await library(path.join(config.dataDir,'library.json'));}catch(e){throw fail('The selected library folder is unavailable or invalid. Restore its availability before opening Refhaven. '+e.message);}
   if(migration&&config.migrationId===migration.id&&config.dataDir===migration.targetDir&&migration.status==='prepared'){migration={...migration,status:'activated'};await atomic(journalFile(configDir),migration);}
   return {dataDir:config.dataDir,...(migration?{migration:brief(migration)}:{})};
  }
@@ -35,7 +35,7 @@ export async function prepareLibraryMove({sourceDir,targetDir,configDir}){
  const recoveryWarnings=[];const previous=await json(journalFile(configDir));if(previous){if(checked(previous).status!=='prepared')throw fail('An earlier library move needs recovery before starting another.');recoveryWarnings.push(...(await cancelLibraryMove({configDir,migrationId:previous.id})).warnings);}
  sourceDir=await plainPath(sourceDir);targetDir=await plainPath(targetDir);
  if(contains(sourceDir,targetDir)||contains(targetDir,sourceDir)||contains(targetDir,path.resolve(configDir)))throw fail('Choose a separate empty folder outside the current library and local settings.');
- if((await readdir(targetDir)).some(name=>name!=='.DS_Store'))throw fail('Choose an empty dedicated folder for your Folio library.');
+ if((await readdir(targetDir)).some(name=>name!=='.DS_Store'))throw fail('Choose an empty dedicated folder for your Refhaven library.');
  const files=[];let value;try{value=await library(path.join(sourceDir,'library.json'));}catch(e){if(e.code!=='ENOENT')throw e;value={papers:[],collections:[],revision:0};}
  const names=['library.json'];
  for(const folder of ['pdfs','citation-styles']){let entries;try{await plainPath(path.join(sourceDir,folder));entries=await readdir(path.join(sourceDir,folder));}catch(e){if(e.code==='ENOENT')continue;throw e;}
@@ -61,7 +61,7 @@ export async function activateLibraryMove({configDir,migrationId}){
   if(!error.committed&&!(selected?.migrationId===m.id&&selected?.dataDir===m.targetDir))throw error;
   warnings.push('The new library location was selected, but its settings durability check needs recovery after restart.');
  }
- m.status='activated';try{await atomic(journalFile(configDir),m);}catch{warnings.push('The new library location was selected. Restart Folio to finish recording and cleaning up the move.');}
+ m.status='activated';try{await atomic(journalFile(configDir),m);}catch{warnings.push('The new library location was selected. Restart Refhaven to finish recording and cleaning up the move.');}
  return {dataDir:m.targetDir,migration:brief(m),warnings};
 }
 /** Call only after successful startup at target and while old-library writers are stopped.

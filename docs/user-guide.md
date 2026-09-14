@@ -1,10 +1,10 @@
-# Folio user guide
+# Refhaven user guide
 
-This guide covers the current local desktop/browser app. Start with [the demo](demo.md) if you want to explore using fictional data. Folio is an early preview: keep backups and review generated references before submission.
+This guide covers the current local desktop/browser app. Start with [the demo](demo.md) if you want to explore using fictional data. Refhaven is an early preview: keep backups and review generated references before submission.
 
 ## Contents
 
-- [Install and open Folio](#install-and-open-folio)
+- [Install and open Refhaven](#install-and-open-folio)
 - [Add and edit papers](#add-and-edit-papers)
 - [Organize your library](#organize-your-library)
 - [Read PDFs and create reading views](#read-pdfs-and-create-reading-views)
@@ -15,11 +15,11 @@ This guide covers the current local desktop/browser app. Start with [the demo](d
 - [Use a cloud-provider folder](#use-a-cloud-provider-folder)
 - [Troubleshooting and limits](#troubleshooting-and-limits)
 
-## Install and open Folio
+## Install and open Refhaven
 
 Follow the [installation guide](install.md): Apple silicon Macs can use the downloadable app; other platforms can run from source. Browser mode opens at `http://127.0.0.1:47821/papers`; the local service must keep running. Desktop mode starts its own service. Stop one mode before starting the other with the same library.
 
-No Folio account is required. Locally available PDFs, organization, reading caches, and formatting with installed citation styles work offline. Online-only PDFs need your cloud provider to download them first. Public metadata lookup, connector publisher downloads, style downloads, and cloud AI require internet access.
+No Refhaven account is required. Locally available PDFs, organization, reading caches, and formatting with installed citation styles work offline. Online-only PDFs need your cloud provider to download them first. Public metadata lookup, connector publisher downloads, style downloads, and cloud AI require internet access.
 
 ## Add and edit papers
 
@@ -46,7 +46,7 @@ Imports stream to disk without a 50 MB application limit. Disk space and OS/brow
 
 ### Import another reference library
 
-Choose **Import references** and select `.ris` or a Folio reference-export `.json` file. Imports skip recognized duplicate IDs, PMIDs, DOIs, or source URLs. These files contain reference metadata, not the original PDFs; attach those separately. Reference-import files must be under 20 MB. Arbitrary BibTeX import is not supported.
+Choose **Import references** and select `.ris` or a Refhaven reference-export `.json` file. Imports skip recognized duplicate IDs, PMIDs, DOIs, or source URLs. These files contain reference metadata, not the original PDFs; attach those separately. Reference-import files must be under 20 MB. Arbitrary BibTeX import is not supported.
 
 ## Organize your library
 
@@ -88,7 +88,7 @@ Select text in the article pane, choose yellow, green, blue, pink, or purple, th
 
 A reading cache is generated on this computer and reused offline. Identical PDFs share one cache. Existing older caches show **Update reading view** when newer parsing rules are available. Updating replaces that PDF's cached extraction; it does not continually accumulate copies.
 
-Caches add disk use. Folio loads a paper's reading cache when that reading view is opened; generating more reading views does not mean every cache is loaded during normal startup. Actual opening speed still depends on the library, computer, PDF, and cache size.
+Caches add disk use. Refhaven loads a paper's reading cache when that reading view is opened; generating more reading views does not mean every cache is loaded during normal startup. Actual opening speed still depends on the library, computer, PDF, and cache size.
 
 **Remove reading cache** deletes the derived view while keeping the PDF, notes, highlights, and chat. Full compressed backups omit caches because they can be regenerated; copying the local application-data folder includes them. When the library is moved to a provider folder, reading caches remain in that local application-data folder. Storage totals appear under **Library & connector**.
 
@@ -128,9 +128,9 @@ Put one reference or a group in parentheses:
 | Mixed identifiers | `(PMID: 36599988; doi:10.1038/nphys1170; arxiv:1706.03762)` |
 | Saved paper without a public identifier | Use **Copy citation marker** to obtain `(folio:its-local-id)`. |
 
-These examples illustrate syntax only. Numeric shorthand recognizes 7–9 digit PMIDs; shorter IDs need `PMID:`. Bare numbers in running prose, ordinary years such as `(2024)`, and already formatted `[1]` are not treated as identifiers. You can type numeric PMIDs directly; copying a marker from Folio is optional. Keep a marker within one paragraph.
+These examples illustrate syntax only. Numeric shorthand recognizes 7–9 digit PMIDs; shorter IDs need `PMID:`. Bare numbers in running prose, ordinary years such as `(2024)`, and already formatted `[1]` are not treated as identifiers. You can type numeric PMIDs directly; copying a marker from Refhaven is optional. Keep a marker within one paragraph.
 
-For multiple references at one location, write one parenthetical group. Folio resolves the identities, deduplicates supported aliases, and lets the selected citation style format/order the cluster. Repeated references reuse their identity; numbering and author–date formatting depend on the style.
+For multiple references at one location, write one parenthetical group. Refhaven resolves the identities, deduplicates supported aliases, and lets the selected citation style format/order the cluster. Repeated references reuse their identity; numbering and author–date formatting depend on the style.
 
 ### Generate a manuscript
 
@@ -152,13 +152,13 @@ The workflow supports in-text citation styles, not styles requiring true footnot
 ### Revise an exported Word document
 
 1. Keep a backup of the exported `.docx`.
-2. Edit your prose in Word. Leave Folio's generated citation controls and bibliography intact.
+2. Edit your prose in Word. Leave Refhaven's generated citation controls and bibliography intact.
 3. Add new markers, such as `(40903587)` or `(36599988, 40903587)`, outside existing controls.
 4. To change an existing citation's sources, remove its **entire citation control**, then insert the new marker. To remove a citation, remove its entire control. Retained controls can move with their text.
 5. Upload the revised file into **Generate references**, resolve any new identifiers, select the desired style, and generate again.
-6. Download the new Word document. Folio refreshes citations in the current manuscript order and replaces its managed bibliography rather than adding another copy.
+6. Download the new Word document. Refhaven refreshes citations in the current manuscript order and replaces its managed bibliography rather than adding another copy.
 
-Update author/title/year or other bibliographic corrections in **Reference details → Edit** in Folio. Compatible current library records take precedence over the snapshot stored in the document. Identity conflicts require correction; they are not silently switched to another paper.
+Update author/title/year or other bibliographic corrections in **Reference details → Edit** in Refhaven. Compatible current library records take precedence over the snapshot stored in the document. Identity conflicts require correction; they are not silently switched to another paper.
 
 Word exports include a limited snapshot of cited bibliographic metadata so an intact document can be revised without the original library. No library notes, PDF files, or credentials are included in that metadata. Share an exported manuscript only with people who should receive its references and manuscript content.
 
@@ -170,15 +170,15 @@ Word conversion covers main-body paragraphs and tables, including markers split 
 
 The connector is provided as an unpacked Chrome/Edge extension, not a store installation. Firefox and Safari packages are not provided.
 
-1. Keep Folio running. Open **Library & connector → Connector folder**, then **Copy folder path**.
+1. Keep Refhaven running. Open **Library & connector → Connector folder**, then **Copy folder path**.
 2. Visit `chrome://extensions` or `edge://extensions`, enable **Developer mode**, and choose **Load unpacked**. Select the entire connector folder containing `manifest.json`. Source builds use the repository's `extension` directory; desktop packages include their own copy.
 3. On macOS, press Command–Shift–G in the picker to paste the folder path. On Windows, use Alt+D for the address bar.
-4. In Folio, choose **Copy connector pairing key**. Open **Folio Connector** from the browser Extensions menu, expand **Pair with Folio**, paste into **Connector token**, and choose **Save token**.
-5. Open an article page. Use **Save reference to Folio**, then **Attach available PDF** if offered. Keep the popup open while saving/downloading.
+4. In Refhaven, choose **Copy connector pairing key**. Open **Refhaven Connector** from the browser Extensions menu, expand **Pair with Refhaven**, paste into **Connector token**, and choose **Save token**.
+5. Open an article page. Use **Save reference to Refhaven**, then **Attach available PDF** if offered. Keep the popup open while saving/downloading.
 
-The connector reads supported scholarly citation metadata from the invoked page. PDF host access may require a browser permission. For university access, sign in through your library first. If capture fails, use **Open PDF in browser (check access)** or download the PDF yourself and attach it in Folio. Folio does not bypass publisher access restrictions.
+The connector reads supported scholarly citation metadata from the invoked page. PDF host access may require a browser permission. For university access, sign in through your library first. If capture fails, use **Open PDF in browser (check access)** or download the PDF yourself and attach it in Refhaven. Refhaven does not bypass publisher access restrictions.
 
-After a connector update, choose **Reload** on the extension's browser-manager card, then refresh the article page. Keep your pairing key private. To revoke it, stop Folio, remove only `connector-token` from the library folder, restart, and pair trusted connectors again.
+After a connector update, choose **Reload** on the extension's browser-manager card, then refresh the article page. Keep your pairing key private. To revoke it, stop Refhaven, remove only `connector-token` from the library folder, restart, and pair trusted connectors again.
 
 ## Back up, restore, and move your library
 
@@ -192,31 +192,31 @@ The exact folder is shown under **Library & connector**. Defaults are:
 
 Advanced users can set `FOLIO_DATA_DIR` before startup. Do not run two services against the same library.
 
-**Export references** downloads Folio JSON with reference metadata, including notes/highlights where present, but without PDF attachments. Use this for reference transfer, not as your only PDF backup.
+**Export references** downloads Refhaven JSON with reference metadata, including notes/highlights where present, but without PDF attachments. Use this for reference transfer, not as your only PDF backup.
 
-**Download full compressed backup**, in **Library & connector**, creates a `.tar.gz` with references, referenced PDFs, and supported local library data such as conversations. It excludes regenerable reading caches and private pairing/API/account credentials. PDFs are losslessly archived rather than downsampled. Keep Folio open until the download finishes. A full backup reads every referenced PDF, so online-only PDFs download again and temporarily use local disk space.
+**Download full compressed backup**, in **Library & connector**, creates a `.tar.gz` with references, referenced PDFs, and supported local library data such as conversations. It excludes regenerable reading caches and private pairing/API/account credentials. PDFs are losslessly archived rather than downsampled. Keep Refhaven open until the download finishes. A full backup reads every referenced PDF, so online-only PDFs download again and temporarily use local disk space.
 
 To restore a downloaded backup:
 
-1. Quit Folio and stop its local service.
+1. Quit Refhaven and stop its local service.
 2. Preserve the current library folder as a rollback copy.
 3. Extract the archive. For the default local setup, restore its contents into the intended library folder, keeping `library.json` and `pdfs/` together and retaining other included library subfolders. For a moved library, restore `library.json`, `pdfs/`, and `citation-styles/` into the selected library folder; restore `paper-chat/` into the original local application-data folder, not the cloud folder.
-4. Reopen Folio and check a few references, PDFs, notes, and conversations. Recreate reading caches as needed; pair the connector again if its token is absent.
+4. Reopen Refhaven and check a few references, PDFs, notes, and conversations. Recreate reading caches as needed; pair the connector again if its token is absent.
 
-You can also quit Folio and copy its folders to another disk. In the default setup, copying the entire library folder includes caches and may include private credentials. After moving a library, reference data/PDFs and private local data are in different folders; back up both if you need a complete manual copy. Treat any such copy as private. Never put your live library folder in a public repository.
+You can also quit Refhaven and copy its folders to another disk. In the default setup, copying the entire library folder includes caches and may include private credentials. After moving a library, reference data/PDFs and private local data are in different folders; back up both if you need a complete manual copy. Treat any such copy as private. Never put your live library folder in a public repository.
 
 For the earlier browser prototype, first export its reference backup and import the JSON here. Old browser-stored PDFs do not move automatically; download/re-attach them and keep the old data until migration is verified.
 
 ## Use a cloud-provider folder
 
-This optional desktop feature changes where Folio stores its reference data and PDFs. Your installed OneDrive, Google Drive for desktop, Box Drive, or another compatible provider app handles uploads and online-only files. Folio does not sign into those services through OAuth, upload through a provider API, or guarantee that their syncing has finished.
+This optional desktop feature changes where Refhaven stores its reference data and PDFs. Your installed OneDrive, Google Drive for desktop, Box Drive, or another compatible provider app handles uploads and online-only files. Refhaven does not sign into those services through OAuth, upload through a provider API, or guarantee that their syncing has finished.
 
 ### Move an existing library
 
 1. Install and sign in to the provider’s desktop app. Confirm its managed folder is available in Finder or your file manager.
-2. In Folio, download a **full compressed backup** and wait for it to finish. Stop other imports/downloads before moving.
+2. In Refhaven, download a **full compressed backup** and wait for it to finish. Stop other imports/downloads before moving.
 3. Open **Library & connector → Choose library folder**. Create/select an **empty folder** inside the provider-managed location, then review the native confirmation. The chooser moves your current library; it is not an importer for an already populated second library.
-4. Keep Folio open while it copies and verifies the files. Folio restarts using the new location, verifies the move, and cleans up the migrated source copies after successful activation. Do not manually delete the source to finish a move.
+4. Keep Refhaven open while it copies and verifies the files. Refhaven restarts using the new location, verifies the move, and cleans up the migrated source copies after successful activation. Do not manually delete the source to finish a move.
 5. Reopen settings and use **Open folder** to inspect the selected location. Check a PDF, notes, and reference details, then wait for the provider’s upload to finish.
 
 The moved files are `library.json`, `pdfs/`, and installed `citation-styles/`. Reference-level reading notes, colors, highlights, and passage notes are part of `library.json`, so they move with it. Connector tokens, API/account credentials, paper conversations, and reading caches stay in the original **local application-data folder**. They are not moved into the provider folder by this feature.
@@ -231,31 +231,31 @@ The moved files are `library.json`, `pdfs/`, and installed `citation-styles/`. R
 | Google Drive for desktop | **Stream files** keeps most content in the cloud and downloads accessed files. **Mirror files** keeps a full local copy and does not provide the same space saving. [Google instructions](https://support.google.com/drive/answer/13401938?hl=en) |
 | Box Drive | **Free up space** removes an offline copy without deleting the Box item. File/folder offline controls vary by version and platform; Box also uses a local cache. [Box guidance](https://support.box.com/hc/en-us/articles/29475996910867-Box-Drive-Frequently-Asked-Questions) |
 
-Keep **`library.json` available offline** so Folio can open and update its reference database reliably. If your provider version cannot keep that file offline independently of the PDF folder, do not make the whole library online-only. Installed styles should also remain available locally when needed. Download the papers you need before working without internet.
+Keep **`library.json` available offline** so Refhaven can open and update its reference database reliably. If your provider version cannot keep that file offline independently of the PDF folder, do not make the whole library online-only. Installed styles should also remain available locally when needed. Download the papers you need before working without internet.
 
-The **PDF file size** shown in Folio is the logical size of its PDFs, not a promise about physical disk space currently occupied by provider placeholders or caches. Folio does not read every PDF simply to refresh that size statistic. Opening, parsing, backing up, or moving an online-only PDF reads its contents and can download it again. Use your provider and operating system’s storage information to assess actual disk use.
+The **PDF file size** shown in Refhaven is the logical size of its PDFs, not a promise about physical disk space currently occupied by provider placeholders or caches. Refhaven does not read every PDF simply to refresh that size statistic. Opening, parsing, backing up, or moving an online-only PDF reads its contents and can download it again. Use your provider and operating system’s storage information to assess actual disk use.
 
 ### Avoid conflicting edits
 
-Use a library on **one computer at a time**. Quit Folio on the first computer, wait for its provider upload, and wait for downloads on the other computer before opening it there. Folio does not merge simultaneous database edits; provider conflict copies are not automatically combined. The folder chooser is for moving the current library into an empty destination, not a complete multi-computer setup or library-merging tool.
+Use a library on **one computer at a time**. Quit Refhaven on the first computer, wait for its provider upload, and wait for downloads on the other computer before opening it there. Refhaven does not merge simultaneous database edits; provider conflict copies are not automatically combined. The folder chooser is for moving the current library into an empty destination, not a complete multi-computer setup or library-merging tool.
 
-If the selected folder is unavailable, restore provider availability before reopening. Keep a separate backup: sync can propagate deletions and mistakes. There is no guarantee that a provider has finished uploading merely because Folio’s local move has completed.
+If the selected folder is unavailable, restore provider availability before reopening. Keep a separate backup: sync can propagate deletions and mistakes. There is no guarantee that a provider has finished uploading merely because Refhaven’s local move has completed.
 
 ## Troubleshooting and limits
 
 | Symptom | What to check |
 | --- | --- |
-| Library will not open / port is busy | Stop other Folio instances and source services. Use the address printed by the running local service. Do not expose the port publicly. |
+| Library will not open / port is busy | Stop other Refhaven instances and source services. Use the address printed by the running local service. Do not expose the port publicly. |
 | Imported PDF has a filename as its title | Edit the reference, add an identifier, and use Find paper details. |
-| No reading text or missing figures | Check the original PDF. Scans need OCR outside Folio; extraction may miss complex layouts. |
+| No reading text or missing figures | Check the original PDF. Scans need OCR outside Refhaven; extraction may miss complex layouts. |
 | Old reading layout remains | Use Update reading view when offered. Notes and highlights are retained. |
 | Reference marker stays unchanged | Check parentheses, explicit prefixes for short IDs, missing records, or conflicting identifiers. Enable lookup when online. |
-| Citation numbers cannot be revised | Use the intact Folio Word export with citation controls, or return to the original marker manuscript. Plain formatted numbers carry no recoverable identity. |
-| Word import reports edited generated text | Restore intact citation controls/reference list, update metadata in Folio, and add new markers outside controls. Accept/reject tracked changes in a copy. |
+| Citation numbers cannot be revised | Use the intact Refhaven Word export with citation controls, or return to the original marker manuscript. Plain formatted numbers carry no recoverable identity. |
+| Word import reports edited generated text | Restore intact citation controls/reference list, update metadata in Refhaven, and add new markers outside controls. Accept/reject tracked changes in a copy. |
 | A style is unavailable | Search/install it or import an in-text CSL style. Footnote/endnote styles are not supported here. |
-| Connector cannot save | Keep Folio running, check pairing, reload the extension after updates, and refresh the article page. |
+| Connector cannot save | Keep Refhaven running, check pairing, reload the extension after updates, and refresh the article page. |
 | Reference saved but PDF failed | Check publisher access in your browser; download and attach it manually. |
 | AI cannot connect | Check provider/model, key or sign-in state, network, and account limits. ChatGPT account mode currently requires macOS. |
 | AI misses a result | Include the relevant selected passage or figure and verify the original; excerpt selection and model answers can be incomplete. |
 
-Folio currently has no built-in cloud sync engine, simultaneous shared-library editing, full-text library search, editable PDF annotation layer, arbitrary BibTeX import, or live Word/Google Docs plugin. Keep a backup and review references and PDF extraction before relying on them for publication.
+Refhaven currently has no built-in cloud sync engine, simultaneous shared-library editing, full-text library search, editable PDF annotation layer, arbitrary BibTeX import, or live Word/Google Docs plugin. Keep a backup and review references and PDF extraction before relying on them for publication.

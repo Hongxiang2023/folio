@@ -1,6 +1,6 @@
 A demonstration manuscript
 
-This is fictional text for testing Folio. It makes no scientific claims.
+This is fictional text for testing Refhaven. It makes no scientific claims.
 
 We describe a reading workflow (folio:demo-reading). We compare two fictional approaches (folio:demo-reading; folio:demo-computing).
 

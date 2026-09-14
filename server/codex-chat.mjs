@@ -36,7 +36,7 @@ export function createCodexChat({dataDir,executable,spawnImpl=spawn,discover=dis
  function fail(){for(const p of pending.values()){clearTimeout(p.timer);p.reject(new Error('Codex connection closed.'));}pending.clear();active?.reject(new Error('Codex connection closed.'));active=undefined;child=undefined;starting=undefined;}
  function request(method,params={},timeout=30000){return new Promise((resolve,reject)=>{const id=++sequence;const timer=setTimeout(()=>{pending.delete(id);reject(new Error('Codex request timed out.'));},timeout);pending.set(id,{resolve,reject,timer});try{send({id,method,params});}catch{clearTimeout(timer);pending.delete(id);reject(new Error('Codex is not running.'));}});}
  function receive(message){
-  if(message.id!==undefined&&message.method){send({id:message.id,error:{code:-32601,message:'Folio does not provide tools or approvals.'}});return;}
+  if(message.id!==undefined&&message.method){send({id:message.id,error:{code:-32601,message:'Refhaven does not provide tools or approvals.'}});return;}
   if(message.id!==undefined){const p=pending.get(message.id);if(p){clearTimeout(p.timer);pending.delete(message.id);message.error?p.reject(new Error('Codex could not complete this request. Check sign-in and model access.')):p.resolve(message.result);}return;}
   const p=message.params||{};
   if(!active||p.threadId!==active.threadId)return;
@@ -58,13 +58,13 @@ export function createCodexChat({dataDir,executable,spawnImpl=spawn,discover=dis
    await mkdir(cwd,{recursive:true,mode:0o700});await chmod(home,0o700);
    const binary=await resolvePath(found),isolatedHome=await resolvePath(home);
    const temporary=path.join(isolatedHome,'tmp');await mkdir(temporary,{recursive:true,mode:0o700});
-   // Only Folio's login is accessible. Do not inherit account keys, host Codex
+   // Only Refhaven's login is accessible. Do not inherit account keys, host Codex
    // environment, plugins, proxies or a caller's working-directory instructions.
    const env={PATH:'/usr/bin:/bin',HOME:isolatedHome,CODEX_HOME:isolatedHome,TMPDIR:temporary};
    child=spawnImpl('/usr/bin/sandbox-exec',['-p',codexSandboxProfile(isolatedHome,binary),binary,'app-server','--listen','stdio://',...Object.entries(CODEX_READING_CONFIG).flatMap(([k,v])=>['-c',`${k}=${JSON.stringify(v)}`])],{cwd,env,stdio:['pipe','pipe','pipe'],windowsHide:true});
    child.stdout.setEncoding('utf8');child.stdout.on('data',chunk=>{buffer+=chunk;if(buffer.length>16*1024*1024){shutdown();return;}let newline;while((newline=buffer.indexOf('\n'))>=0){const line=buffer.slice(0,newline);buffer=buffer.slice(newline+1);try{receive(JSON.parse(line));}catch{}}});
    const current=child;child.stderr.resume();child.on('error',()=>{if(child===current)fail();});child.on('exit',()=>{if(child===current)fail();});
-   await request('initialize',{clientInfo:{name:'folio_reading',title:'Folio Reading',version:'0.1.0'}});send({method:'initialized',params:{}});
+   await request('initialize',{clientInfo:{name:'folio_reading',title:'Refhaven Reading',version:'0.1.0'}});send({method:'initialized',params:{}});
   })();try{await starting;}catch(e){shutdown();throw e;}
  }
  async function status(){

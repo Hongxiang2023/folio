@@ -1,4 +1,4 @@
-# Try Folio with fictional data
+# Try Refhaven with fictional data
 
 This demo has two parts: a clickable illustration that needs only a browser, and a hands-on exercise in the real app. All included references, prose, authors, and diagrams are synthetic. No private library, real paper PDF, account, or API key is included.
 
@@ -6,11 +6,11 @@ This demo has two parts: a clickable illustration that needs only a browser, and
 
 Use the [live walkthrough](https://hongxiang2023.github.io/folio/demo/), or download the project and open [`demo/index.html`](demo/index.html) in your browser. GitHub shows HTML source rather than executing it, so open the downloaded file locally. It is self-contained and works without a server, build, network request, or account.
 
-The eight stops cover collecting, organizing, reading, optional AI, citing, revising, the connector, and backups. Buttons change the illustration or show the next operation. This is **not the Folio app**, a live screenshot, an actual AI answer, or a functional citation engine. It writes no data and makes no network requests.
+The eight stops cover collecting, organizing, reading, optional AI, citing, revising, the connector, and backups. Buttons change the illustration or show the next operation. This is **not the Refhaven app**, a live screenshot, an actual AI answer, or a functional citation engine. It writes no data and makes no network requests.
 
 ## Hands-on demo in an isolated library
 
-Run this from a source checkout with Node.js 22.13 or newer. First quit other Folio instances so port 47821 is free. You will create a separate temporary library rather than importing demo records into your existing one.
+Run this from a source checkout with Node.js 22.13 or newer. First quit other Refhaven instances so port 47821 is free. You will create a separate temporary library rather than importing demo records into your existing one.
 
 On macOS/Linux:
 
@@ -68,7 +68,7 @@ Expected: the bibliography contains three unique references and only one managed
 ### 4. Read a synthetic PDF, save a highlight, and inspect a figure
 
 1. Open [`demo/sample-paper.html`](demo/sample-paper.html) in a browser. Use **Print / save as PDF**, or your browser's Print command, to save a local PDF. Leave it as selectable text; do not take screenshots.
-2. In Folio, select **Designing a calmer research reading workflow**, choose **Edit**, attach that PDF, and save.
+2. In Refhaven, select **Designing a calmer research reading workflow**, choose **Edit**, attach that PDF, and save.
 3. Choose **Read PDF → Reading view → Generate reading view**.
 4. Navigate between sections/pages, select a passage, choose **Highlight selection**, and add a note.
 5. If Figure 1 is detected, try the figure navigator, zoom, and **Check original**. PDF encoding and pagination depend on your browser; imperfect figure detection is a reason to use the original view.
@@ -88,7 +88,7 @@ The clickable walkthrough illustrates AI and connector setup without external ca
 
 Choose **Export references** for metadata-only JSON. In **Library & connector**, download a full compressed backup and inspect the extracted archive: the attached PDF and reference data are included; reading caches and private connector/provider credentials are excluded.
 
-Stop the server with `Ctrl+C`. On Windows, also run `Remove-Item Env:FOLIO_DATA_DIR` before launching Folio normally from that shell. The macOS/Linux command above scoped the override to the demo process. Your ordinary library was never selected by this exercise. Keep or delete the printed temporary demo folder using your file manager after the service is stopped.
+Stop the server with `Ctrl+C`. On Windows, also run `Remove-Item Env:FOLIO_DATA_DIR` before launching Refhaven normally from that shell. The macOS/Linux command above scoped the override to the demo process. Your ordinary library was never selected by this exercise. Keep or delete the printed temporary demo folder using your file manager after the service is stopped.
 
 ## Numeric PMID and mixed-source examples
 

@@ -17,7 +17,7 @@ This is template coverage, not a guarantee for every journal, publication year, 
 
 ## Representative new PDFs
 
-All examples below are published 2024 templates, inspected using original-page renders and complete parser output. Their public PDFs remain in ignored local QA storage and are not distributed with Folio.
+All examples below are published 2024 templates, inspected using original-page renders and complete parser output. Their public PDFs remain in ignored local QA storage and are not distributed with Refhaven.
 
 | Journal | Sample / source | Pages | Detected figures |
 | --- | --- | ---: | ---: |
@@ -39,6 +39,6 @@ Tables remain flattened text; especially Cell's multi-page key resource tables r
 
 ## Ownership and operational review
 
-PM owns scope and parser integration. Nature and Cell/Science QA independently inspected the new samples; the figure owner implemented caption corrections; independent QA added positive and negative regressions. The architectural and privacy/IP review is recorded in [reading-coverage-review.md](reading-coverage-review.md). Public downloads are used only for local validation; no user-library files or extracted text were uploaded. The app update is local and does not publish Folio or its test corpus.
+PM owns scope and parser integration. Nature and Cell/Science QA independently inspected the new samples; the figure owner implemented caption corrections; independent QA added positive and negative regressions. The architectural and privacy/IP review is recorded in [reading-coverage-review.md](reading-coverage-review.md). Public downloads are used only for local validation; no user-library files or extracted text were uploaded. The app update is local and does not publish Refhaven or its test corpus.
 
-Desktop delivery: the locally signed layout-15 app replaced the existing release/mac-arm64/Folio.app after Folio was observed closed. Signature verification and byte-for-byte production-asset checks passed before and after replacement. The previous app bundle is preserved in release/.journal-coverage/previous-bundle for rollback. Folio was left closed; existing library records and caches were not rewritten during installation.
+Desktop delivery: the locally signed layout-15 app replaced the existing release/mac-arm64/Refhaven.app after Refhaven was observed closed. Signature verification and byte-for-byte production-asset checks passed before and after replacement. The previous app bundle is preserved in release/.journal-coverage/previous-bundle for rollback. Refhaven was left closed; existing library records and caches were not rewritten during installation.

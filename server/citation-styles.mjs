@@ -58,7 +58,7 @@ function validateRecord(record){
  for(const [lang,xml] of Object.entries(record.locales)){normalizeLocale(lang);parseXML(xml,'locale');}
  const styleXml=record.parents.at(-1)?.xml||record.xml;
  const options={styleXml,locales:record.locales,locale:normalizeLocale(child.locale||record.parents.map(p=>inspectStyle(p.xml).locale).find(Boolean)||'en-US')};
- try{generateCitations('(12345678)',[fixture],record.id,options);}catch{throw fail('This style could not be rendered by Folio’s CSL engine.');}
+ try{generateCitations('(12345678)',[fixture],record.id,options);}catch{throw fail('This style could not be rendered by Refhaven’s CSL engine.');}
  return {...record,label:child.label,parent:child.parent,options};
 }
 export async function createCitationStyles({dataDir,fetchImpl=fetch}){

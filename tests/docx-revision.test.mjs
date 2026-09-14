@@ -67,7 +67,7 @@ test('Word-renamed metadata survives repeated updates without altering unrelated
 });
 test('duplicate, unlinked, missing, external and traversal metadata targets fail safely',async()=>{
  const first=await wordRename((await createDocx('Alpha (42092150).',[a],'nature')).buffer);
- await assert.rejects(extractDocx(await edit(first,async(_,zip)=>zip.file('customXml/duplicate.xml',await zip.file('customXml/item1.xml').async('string')))),/Multiple Folio/);
+ await assert.rejects(extractDocx(await edit(first,async(_,zip)=>zip.file('customXml/duplicate.xml',await zip.file('customXml/item1.xml').async('string')))),/Multiple Refhaven/);
  await assert.rejects(extractDocx(await edit(first,(_,zip)=>zip.remove('customXml/item1.xml'))),/metadata is missing/);
  await assert.rejects(extractDocx(await edit(first,async(_,zip)=>zip.file('word/_rels/document.xml.rels',(await zip.file('word/_rels/document.xml.rels').async('string')).replace(/<Relationship[^>]*Target="..\/customXml\/item1.xml"[^>]*\/>/,'')))),/relationship is missing/);
  for(const target of ['../../customXml/item1.xml','../customXml/../customXml/item1.xml','https://example.com/item1.xml','../customXml/%2e%2e/item1.xml'])await assert.rejects(extractDocx(await edit(first,async(_,zip)=>zip.file('word/_rels/document.xml.rels',(await zip.file('word/_rels/document.xml.rels').async('string')).replace('Target="../customXml/item1.xml"',`Target="${target}"`)))),/Unsafe custom XML/);

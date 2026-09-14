@@ -81,7 +81,7 @@ export async function createFolioServer({ dataDir = defaultDataDir(), localDataD
   async function fileHash(id){if(hashes.has(id))return hashes.get(id);const hash=createHash('sha256');for await(const chunk of createReadStream(path.join(dataDir,'pdfs',`${id}.pdf`)))hash.update(chunk);const value=hash.digest('hex');hashes.set(id,value);return value;}
   async function storageStats(){const files=(await readdir(path.join(dataDir,'pdfs'))).filter(f=>f.endsWith('.pdf'));const sizes=new Map();for(const file of files)sizes.set(file.slice(0,-4),(await stat(path.join(dataDir,'pdfs',file))).size);const used=new Set(library.papers.map(p=>p.pdfId).filter(Boolean));const bytes=[...sizes.values()].reduce((a,b)=>a+b,0);const logicalBytes=library.papers.reduce((sum,p)=>sum+(sizes.get(p.pdfId)||0),0);const referencedBytes=[...used].reduce((sum,id)=>sum+(sizes.get(id)||0),0);return {...await readingCache.stats(),pdfCount:files.length,bytes,referenceCount:library.papers.length,logicalBytes,savedBytes:Math.max(0,logicalBytes-referencedBytes),unusedBytes:bytes-referencedBytes};}
   async function assertExternalUnchanged(){
-    if(externalLibrary){let current;try{current=await readFile(libraryPath,'utf8');}catch{throw fail(409,'The library folder is unavailable. Start your cloud drive and reopen Folio.');}if(current!==diskSnapshot)throw fail(409,'The library changed outside Folio. Quit Folio, wait for cloud sync, then reopen it before saving.');}
+    if(externalLibrary){let current;try{current=await readFile(libraryPath,'utf8');}catch{throw fail(409,'The library folder is unavailable. Start your cloud drive and reopen Refhaven.');}if(current!==diskSnapshot)throw fail(409,'The library changed outside Refhaven. Quit Refhaven, wait for cloud sync, then reopen it before saving.');}
   }
   async function persist(papers, collections = library.collections) {
     await assertExternalUnchanged();
@@ -114,23 +114,23 @@ export async function createFolioServer({ dataDir = defaultDataDir(), localDataD
       if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
       const url = new URL(req.url, ownOrigin);
       if (url.pathname.startsWith('/api/')) {
-        if(!storageReady())throw fail(503,'Folio is verifying the moved library. Please wait.');
+        if(!storageReady())throw fail(503,'Refhaven is verifying the moved library. Please wait.');
         if (url.pathname === '/api/session' && req.method === 'GET') {
-          if (extension || (req.headers['sec-fetch-site'] && !['same-origin', 'none'].includes(req.headers['sec-fetch-site']))) throw fail(403, 'Open Folio directly to pair the connector.');
+          if (extension || (req.headers['sec-fetch-site'] && !['same-origin', 'none'].includes(req.headers['sec-fetch-site']))) throw fail(403, 'Open Refhaven directly to pair the connector.');
           res.setHeader('Set-Cookie', `folio_session=${token}; HttpOnly; SameSite=Strict; Path=/`);
           return send(res, 200, { token, dataDir, extensionDir:path.resolve(extensionDir) });
         }
-        if(relocating)throw fail(503,'Folio is moving the library. Wait for it to reopen.');
+        if(relocating)throw fail(503,'Refhaven is moving the library. Wait for it to reopen.');
         const cookie = req.headers.cookie?.split(';').map(x => x.trim()).find(x => x.startsWith('folio_session='))?.slice(14);
-        if (!bearer && !(safeEqual(cookie, token) && !extension)) throw fail(401, 'Open Folio or pair the connector first.');
+        if (!bearer && !(safeEqual(cookie, token) && !extension)) throw fail(401, 'Open Refhaven or pair the connector first.');
         if (!bearer && req.headers['sec-fetch-site'] === 'cross-site') throw fail(403, 'Cross-site request denied.');
-        if(url.pathname==='/api/library-location'&&req.method==='GET'){if(extension)throw fail(403,'Open Folio directly to manage its folder.');return send(res,200,{supported:!!libraryLocation,dataDir,localDataDir,cloudFolder:externalLibrary});}
+        if(url.pathname==='/api/library-location'&&req.method==='GET'){if(extension)throw fail(403,'Open Refhaven directly to manage its folder.');return send(res,200,{supported:!!libraryLocation,dataDir,localDataDir,cloudFolder:externalLibrary});}
         if(url.pathname==='/api/library-location/reveal'&&req.method==='POST'){
-          if(extension||!libraryLocation)throw fail(403,'Open the Folio desktop app to manage its folder.');
+          if(extension||!libraryLocation)throw fail(403,'Open the Refhaven desktop app to manage its folder.');
           await libraryLocation.reveal();return send(res,200,{ok:true});
         }
         if(url.pathname==='/api/library-location/choose'&&req.method==='POST'){
-          if(extension||!libraryLocation)throw fail(403,'Open the Folio desktop app to move its library.');
+          if(extension||!libraryLocation)throw fail(403,'Open the Refhaven desktop app to move its library.');
           if(choosingLocation)throw fail(409,'A folder selection is already open.');
           choosingLocation=true;
           try{
@@ -145,7 +145,7 @@ export async function createFolioServer({ dataDir = defaultDataDir(), localDataD
         }
 
         if(url.pathname.startsWith('/api/ai/')){
-          if(extension)throw fail(403,'Paper chat is available only inside Folio.');
+          if(extension)throw fail(403,'Paper chat is available only inside Refhaven.');
           if(url.pathname==='/api/ai/settings'){
             if(req.method==='GET')return send(res,200,await paperChat.status());
             if(req.method==='POST')return send(res,200,await paperChat.configure(await jsonBody(req)));
@@ -163,10 +163,10 @@ export async function createFolioServer({ dataDir = defaultDataDir(), localDataD
           throw fail(404,'Unknown AI endpoint.');
         }
         if(url.pathname==='/api/pubmed'&&req.method==='GET'){try{return send(res,200,await pubmedLookup({pmid:url.searchParams.get('pmid')||undefined,doi:url.searchParams.get('doi')||undefined}));}catch(e){throw fail(400,e.message);}}
-        if(url.pathname==='/api/citations/lookup'&&req.method==='GET'){if(extension)throw fail(403,'Reference lookup is available only inside Folio.');try{return send(res,200,await identifierLookup(url.searchParams.get('identifier')||'',{pubmedLookup}));}catch(e){throw fail(400,e.message);}}
+        if(url.pathname==='/api/citations/lookup'&&req.method==='GET'){if(extension)throw fail(403,'Reference lookup is available only inside Refhaven.');try{return send(res,200,await identifierLookup(url.searchParams.get('identifier')||'',{pubmedLookup}));}catch(e){throw fail(400,e.message);}}
         if(url.pathname==='/api/citations/styles'&&req.method==='GET')return send(res,200,citationStyles.list());
         if(url.pathname.startsWith('/api/citations/style-')){
-          if(extension)throw fail(403,'Citation style management is available only inside Folio.');
+          if(extension)throw fail(403,'Citation style management is available only inside Refhaven.');
           if(url.pathname==='/api/citations/style-catalog'&&req.method==='GET')return send(res,200,await citationStyles.search(url.searchParams.get('q')||''));
           if(req.method==='POST'){
             const body=await jsonBody(req);
@@ -176,14 +176,14 @@ export async function createFolioServer({ dataDir = defaultDataDir(), localDataD
           throw fail(405,'Unsupported citation style operation.');
         }
         if(url.pathname.startsWith('/api/citations/')&&req.method==='POST'){
-          if(extension)throw fail(403,'Manuscript conversion is available only inside Folio.');
+          if(extension)throw fail(403,'Manuscript conversion is available only inside Refhaven.');
           const body=await jsonBody(req);if(typeof body.text!=='string'||body.text.length>1000000)throw fail(400,'Manuscript text must be under one million characters.');if(!citationStyles.list().some(s=>s.id===body.style))throw fail(400,'Choose a supported citation style.');
           const papers=citationPapers(library.papers,body.papers);
           if(url.pathname==='/api/citations/preview')return send(res,200,generateCitations(body.text,papers,body.style,citationStyles.options(body.style)));
           if(url.pathname==='/api/citations/word'){const output=await createDocx(body.text,papers,body.style,citationStyles.options(body.style));if(output.unresolved.length)throw fail(400,'Resolve all identifiers before exporting Word.');res.writeHead(200,{'Content-Type':'application/vnd.openxmlformats-officedocument.wordprocessingml.document','Content-Disposition':'attachment; filename="folio-manuscript.docx"','Cache-Control':'no-store'});res.end(output.buffer);return;}
         }
         if(url.pathname.startsWith('/api/word/')&&req.method==='POST'){
-          if(extension)throw fail(403,'Manuscript conversion is available only inside Folio.');
+          if(extension)throw fail(403,'Manuscript conversion is available only inside Refhaven.');
           const style=url.searchParams.get('style')||'apa';if(!citationStyles.list().some(s=>s.id===style))throw fail(400,'Choose a supported citation style.');const {buffer,papers:temporary}=await wordBody(req),papers=citationPapers(library.papers,temporary);
           if(url.pathname==='/api/word/preview'){const source=await extractDocx(buffer);const output=generateCitations(source.text,[...papers,...(source.embeddedPapers||[])],style,citationStyles.options(style));return send(res,200,{...output,revision:source.revision,warnings:[...source.warnings,...output.warnings]});}
           if(url.pathname==='/api/word/generate'){const output=await generateDocx(buffer,papers,style,citationStyles.options(style));if(output.unresolved.length)throw fail(400,'Resolve all identifiers before exporting Word.');res.writeHead(200,{'Content-Type':'application/vnd.openxmlformats-officedocument.wordprocessingml.document','Content-Disposition':'attachment; filename="folio-manuscript.docx"','Cache-Control':'no-store'});res.end(output.buffer);return;}
@@ -256,5 +256,5 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const localDataDir=defaultDataDir(),location=await resolveLibraryLocation({configDir:localDataDir,defaultDataDir:localDataDir});
   const server = await createFolioServer({dataDir:location.dataDir,localDataDir});
   const port = Number(process.env.PORT || 47821);
-  server.listen(port, '127.0.0.1', () => console.log(`Folio: http://127.0.0.1:${port}/papers\nLibrary: ${location.dataDir}`));
+  server.listen(port, '127.0.0.1', () => console.log(`Refhaven: http://127.0.0.1:${port}/papers\nLibrary: ${location.dataDir}`));
 }

@@ -7,20 +7,20 @@ release or claim that native Word and installer workflows have been verified.
 ## Outcome
 
 The source now supports citations without PMID and reimport of revised,
-Folio-generated DOCX documents. Keep this a local, single-user application. A
+Refhaven-generated DOCX documents. Keep this a local, single-user application. A
 public downloadable preview remains a separate release task; the loopback
 service is not a hosted multi-user upload service. Nothing was published or
 uploaded during this review.
 
 ## Implemented and checked
 
-- Citation identity supports explicit DOI, arXiv and Folio local markers alongside
+- Citation identity supports explicit DOI, arXiv and Refhaven local markers alongside
   legacy PMID markers. CSL processor IDs are separate from PMID metadata; internal
   IDs are no longer emitted as fake PMIDs.
 - Provider lookup retains richer citation metadata. Temporary request records
   have whitelisted fields, validated identifiers and count/size limits. Preview
   and export do not save records or alter existing library notes.
-- Newly generated Word documents carry Folio citation/bibliography controls and
+- Newly generated Word documents carry Refhaven citation/bibliography controls and
   bounded, versioned embedded reference snapshots. Reimport restores source
   identities and regenerates citation order and the owned reference list. Ordinary
   edited prose remains present. Old exports without this metadata still need the
@@ -62,7 +62,7 @@ last focused API additions; rerun totals may increase as tests are added.
    browser-connector scenarios on every claimed OS. Review signing/notarization
    arrangements and actual installer contents before public binary distribution.
 4. **Public source boundary.** Follow `RELEASE.md`: create an isolated repository
-   from the Folio folder, excluding parent history/game assets, personal papers,
+   from the Refhaven folder, excluding parent history/game assets, personal papers,
    PDFs, caches, pairing tokens, environment files and backups. Establish a real
    private reporting contact in `SECURITY.md`, check dependency notices/audit, and
    obtain the separate authorization for public publishing.
@@ -74,7 +74,7 @@ rewrite a user's library. Conversion must keep them request-local, whitelist
 fields, enforce metadata/package limits and never follow external relationships
 or arbitrary metadata URLs to recover identity. Existing XML-declaration,
 tracked-change and macro guards remain relevant. Preserving unrelated package
-parts does not make Folio a document sanitizer.
+parts does not make Refhaven a document sanitizer.
 
 The UI must state that enabled metadata lookup sends identifiers to the selected
 fixed providers (PubMed, Crossref or arXiv), while manuscript text and DOCX bytes
@@ -91,7 +91,7 @@ reported rather than silently changing the work being cited.
 
 Do not infer arbitrary existing Word/Zotero/EndNote formatted citations from their
 visible numbers or author names. This is an upload/edit/reimport workflow for
-Folio-created controls, not a live Word add-in. Keep unsupported document regions
+Refhaven-created controls, not a live Word add-in. Keep unsupported document regions
 (headers, footnotes, endnotes and text boxes) explicit. No universal style fidelity,
 live integration, binary-release readiness or new licensing conclusion follows
 from the automated checks recorded here.
